@@ -3,1216 +3,2187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LeetCode 75 — Repetição Espaçada</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Ford Fiesta 2007 1.6 — Guia Mecânico Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e1a;
-    --surface: #111827;
-    --surface2: #1a2236;
-    --border: #1e2d45;
-    --accent: #00e5ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --warn: #f59e0b;
-    --danger: #ef4444;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --easy: #10b981;
-    --medium: #f59e0b;
-    --card-h: 180px;
+    --bg: #0d0f14;
+    --bg2: #13161e;
+    --bg3: #1a1e28;
+    --card: #1e2330;
+    --border: #2a2f3e;
+    --ford-blue: #003da5;
+    --ford-blue2: #0057d9;
+    --accent: #e8b84b;
+    --accent2: #f0c96a;
+    --red: #e84b4b;
+    --green: #4be8a0;
+    --text: #d8dde8;
+    --text2: #8892a4;
+    --text3: #5a6275;
+    --white: #f0f2f8;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Sora', sans-serif;
     background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
     overflow-x: hidden;
   }
 
-  /* Background grid */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── HEADER ── */
+  /* HEADER */
   header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,14,26,0.85);
-    backdrop-filter: blur(16px);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(13,15,20,0.95);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
     display: flex;
     align-items: center;
-    gap: 2rem;
-    height: 64px;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 58px;
   }
 
   .logo {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
     font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -0.5px;
-    white-space: nowrap;
-  }
-  .logo span { color: var(--muted); }
-
-  .header-stats {
-    display: flex;
-    gap: 1.5rem;
-    margin-left: auto;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .stat-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.78rem;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--muted);
-  }
-  .stat-pill strong {
-    color: var(--text);
-    font-size: 0.95rem;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-  /* ── MAIN LAYOUT ── */
-  main {
-    position: relative;
-    z-index: 1;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    text-align: center;
-    padding: 3rem 0 2rem;
-  }
-  .hero h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 700;
-    letter-spacing: -1.5px;
-    line-height: 1.1;
-    margin-bottom: 0.75rem;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .hero p {
-    color: var(--muted);
-    font-size: 1rem;
-    max-width: 500px;
-    margin: 0 auto 2rem;
-  }
-
-  /* Progress bar */
-  .progress-wrap {
-    max-width: 600px;
-    margin: 0 auto 2rem;
-  }
-  .progress-bar-bg {
-    height: 6px;
-    background: var(--surface2);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    border-radius: 999px;
-    transition: width 0.6s ease;
-  }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 6px;
-  }
-
-  /* ── REVIEW ALERT ── */
-  .review-alert {
-    background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.08));
-    border: 1px solid rgba(245,158,11,0.3);
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .review-alert:hover { border-color: var(--warn); }
-  .review-alert.hidden { display: none; }
-  .alert-icon { font-size: 1.5rem; }
-  .alert-text strong { display: block; font-size: 0.95rem; color: var(--warn); }
-  .alert-text span { font-size: 0.8rem; color: var(--muted); }
-
-  /* ── CONTROLS ── */
-  .controls {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-    align-items: center;
-  }
-
-  .search-input {
-    flex: 1;
-    min-width: 200px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .search-input:focus { border-color: var(--accent); }
-  .search-input::placeholder { color: var(--muted); }
-
-  .filter-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
-    color: var(--muted);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--surface2);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* ── SECTION ── */
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 2.5rem 0 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
+    color: var(--white);
   }
-  .section-count {
-    font-family: 'JetBrains Mono', monospace;
+  .logo span { color: var(--accent); }
+
+  nav { display: flex; gap: 4px; }
+  nav a {
+    font-family: 'Oswald', sans-serif;
     font-size: 0.75rem;
-    color: var(--accent);
-    background: rgba(0,229,255,0.1);
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
-
-  /* ── CARD GRID ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1rem;
-  }
-
-  /* ── PROBLEM CARD ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.1rem 1.25rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    background: linear-gradient(135deg, rgba(0,229,255,0.05), transparent);
-    transition: opacity 0.2s;
-  }
-  .card:hover { border-color: #2a3f5f; transform: translateY(-1px); }
-  .card:hover::before { opacity: 1; }
-
-  /* Card states */
-  .card.done { border-color: rgba(16,185,129,0.25); }
-  .card.done::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--easy);
-    border-radius: 2px 0 0 2px;
-  }
-  .card.mastered { border-color: rgba(124,58,237,0.4); }
-  .card.mastered::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--accent2);
-    border-radius: 2px 0 0 2px;
-  }
-  .card.due-review { border-color: rgba(245,158,11,0.4); }
-  .card.due-review::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--warn);
-    border-radius: 2px 0 0 2px;
-  }
-
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .card-number {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    padding: 2px 6px;
-    background: var(--surface2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 6px 12px;
     border-radius: 4px;
-    flex-shrink: 0;
+    transition: all 0.2s;
   }
+  nav a:hover { color: var(--accent); background: rgba(232,184,75,0.08); }
 
-  .card-badges {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .badge {
-    font-size: 0.65rem;
-    padding: 2px 7px;
-    border-radius: 999px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-  .badge-easy { background: rgba(16,185,129,0.15); color: var(--easy); }
-  .badge-medium { background: rgba(245,158,11,0.15); color: var(--medium); }
-  .badge-mastered { background: rgba(124,58,237,0.2); color: #a78bfa; }
-  .badge-review { background: rgba(245,158,11,0.2); color: var(--warn); }
-
-  .card-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    line-height: 1.3;
-    flex: 1;
-    text-align: left;
-  }
-
-  .card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .card-tag {
-    font-size: 0.68rem;
-    color: var(--muted);
-    background: var(--surface2);
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .card-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 4px;
-  }
-
-  .attempts-display {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .attempt-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--border);
-  }
-  .attempt-dot.filled { background: var(--accent2); }
-  .attempt-dot.extra { background: var(--accent); }
-
-  .next-review {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-  }
-  .next-review.overdue { color: var(--warn); }
-  .next-review.today { color: var(--accent3); }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
-    z-index: 200;
+  /* HERO */
+  .hero {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 560px;
-    padding: 2rem;
     position: relative;
-    transform: scale(0.95);
-    transition: transform 0.2s;
-    max-height: 90vh;
-    overflow-y: auto;
+    overflow: hidden;
+    padding-top: 58px;
   }
-  .modal-overlay.open .modal { transform: scale(1); }
 
-  .modal-close {
+  .hero-bg {
     position: absolute;
-    top: 1rem; right: 1rem;
-    background: var(--surface2);
-    border: none;
-    color: var(--muted);
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(0,61,165,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(232,184,75,0.08) 0%, transparent 60%),
+      var(--bg);
   }
-  .modal-close:hover { color: var(--text); background: var(--border); }
 
-  .modal-header {
-    margin-bottom: 1.5rem;
-    padding-right: 2.5rem;
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(42,47,62,0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42,47,62,0.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
   }
-  .modal-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-bottom: 4px;
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    max-width: 820px;
+    padding: 0 24px;
   }
-  .modal-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  .modal-link {
-    font-size: 0.78rem;
-    color: var(--accent);
-    text-decoration: none;
+
+  .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .modal-link:hover { text-decoration: underline; }
-
-  .modal-section { margin-bottom: 1.5rem; }
-  .modal-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 0.6rem;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* Attempt counter */
-  .attempt-counter {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .attempt-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    min-width: 3rem;
-    text-align: center;
-  }
-  .attempt-btns {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .attempt-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    width: 32px; height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .attempt-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .log-btn {
-    background: linear-gradient(135deg, var(--accent2), #5b21b6);
-    border: none;
-    color: white;
-    padding: 0.6rem 1.25rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: opacity 0.2s, transform 0.1s;
-  }
-  .log-btn:hover { opacity: 0.9; }
-  .log-btn:active { transform: scale(0.97); }
-
-  /* Mastery toggle */
-  .mastery-toggle {
-    display: flex;
     gap: 8px;
+    background: rgba(232,184,75,0.1);
+    border: 1px solid rgba(232,184,75,0.3);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
   }
-  .mastery-btn {
-    flex: 1;
-    padding: 0.65rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    transition: all 0.2s;
+
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .hero h1 .line2 { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text2);
+    font-weight: 300;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
     text-align: center;
   }
-  .mastery-btn:hover { border-color: var(--accent); color: var(--text); }
-  .mastery-btn.active-learning { border-color: var(--accent3); color: var(--accent3); background: rgba(16,185,129,0.1); }
-  .mastery-btn.active-mastered { border-color: var(--accent2); color: #a78bfa; background: rgba(124,58,237,0.1); }
-
-  /* SR intervals */
-  .sr-info {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 1rem;
-  }
-  .sr-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.82rem;
-    margin-bottom: 6px;
-  }
-  .sr-row:last-child { margin-bottom: 0; }
-  .sr-label { color: var(--muted); }
-  .sr-val {
-    font-family: 'JetBrains Mono', monospace;
+  .hero-stat .num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
     font-weight: 600;
-    color: var(--text);
+    color: var(--accent);
+    display: block;
   }
-  .sr-val.overdue { color: var(--warn); }
-  .sr-val.today { color: var(--accent3); }
+  .hero-stat .lbl {
+    font-size: 0.78rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
 
-  /* History log */
-  .history-list {
+  .hero-scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    max-height: 120px;
-    overflow-y: auto;
+    align-items: center;
+    gap: 8px;
+    color: var(--text3);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
   }
-  .history-item {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
+  .hero-scroll svg { opacity: 0.5; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 96px 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .section-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
     display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text2);
+    max-width: 600px;
+    margin-bottom: 56px;
+  }
+
+  /* ALTERNATING BG */
+  .bg-alt { background: var(--bg2); }
+
+  /* CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .card {
+    background: var(--card);
+    padding: 32px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .card:hover { background: var(--bg3); }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(232,184,75,0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+  }
+
+  .card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .card p {
+    font-size: 0.92rem;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  /* ENGINE DIAGRAM */
+  .engine-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media(max-width: 768px) {
+    .engine-layout { grid-template-columns: 1fr; }
+    nav { display: none; }
+  }
+
+  .engine-diagram {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .engine-svg-wrap {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .part-hotspot {
+    cursor: pointer;
+  }
+  .part-hotspot circle {
+    transition: r 0.2s, fill 0.2s;
+  }
+  .part-hotspot:hover circle { r: 10; fill: var(--accent); }
+
+  .engine-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .part-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .part-item.active { border-color: var(--accent); }
+
+  .part-header {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 4px 8px;
-    background: var(--surface2);
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .part-header:hover { background: var(--bg3); }
+
+  .part-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+
+  .part-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(232,184,75,0.1);
+    padding: 2px 8px;
     border-radius: 4px;
   }
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--muted);
-    font-size: 0.9rem;
+  .part-body {
+    display: none;
+    padding: 0 20px 18px;
+    border-top: 1px solid var(--border);
   }
-  .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+  .part-item.active .part-body { display: block; }
 
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 2rem; right: 2rem;
-    background: var(--surface);
+  .part-body p {
+    font-size: 0.9rem;
+    color: var(--text2);
+    line-height: 1.65;
+    margin-top: 14px;
+  }
+
+  .part-body .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .tag.warn { background: rgba(232,75,75,0.1); color: var(--red); border: 1px solid rgba(232,75,75,0.25); }
+  .tag.ok { background: rgba(75,232,160,0.1); color: var(--green); border: 1px solid rgba(75,232,160,0.25); }
+  .tag.info { background: rgba(0,87,217,0.12); color: #6eb3ff; border: 1px solid rgba(0,87,217,0.3); }
+
+  /* CYCLE SECTION */
+  .cycle-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  @media(max-width: 600px) {
+    .cycle-wrap { grid-template-columns: 1fr 1fr; }
+  }
+
+  .cycle-step {
+    background: var(--card);
+    padding: 28px 20px;
+    text-align: center;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .cycle-step:hover { background: var(--bg3); }
+
+  .cycle-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(232,184,75,0.15);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .cycle-icon {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .cycle-step h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .cycle-step p {
+    font-size: 0.82rem;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  /* ANIMATION ENGINE */
+  .engine-anim-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .engine-anim-wrap h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .engine-anim-wrap p {
+    font-size: 0.88rem;
+    color: var(--text2);
+    margin-bottom: 24px;
+  }
+
+  #engineCanvas {
+    border-radius: 8px;
+    background: var(--bg);
+    display: block;
+    margin: 0 auto;
+  }
+
+  .anim-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--ford-blue2);
+    color: white;
+  }
+  .btn-primary:hover { background: #0068ff; }
+
+  .btn-accent {
+    background: rgba(232,184,75,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(232,184,75,0.3);
+  }
+  .btn-accent:hover { background: rgba(232,184,75,0.25); }
+
+  /* CONSUMO */
+  .consumo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media(max-width: 700px) { .consumo-grid { grid-template-columns: 1fr; } }
+
+  .consumo-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .consumo-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .consumo-meter {
+    margin-bottom: 16px;
+  }
+  .consumo-meter label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text2);
+    margin-bottom: 7px;
+  }
+  .consumo-meter label span:last-child {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .meter-bar {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--ford-blue2), var(--accent));
+    transition: width 1s ease;
+  }
+
+  .fuel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .fuel-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .fuel-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .fuel-item .dot.blue { background: var(--ford-blue2); }
+  .fuel-item .dot.red { background: var(--red); }
+  .fuel-item .dot.green { background: var(--green); }
+
+  /* DIAGNOSTIC */
+  .diag-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  @media(max-width: 700px) { .diag-intro { grid-template-columns: 1fr; } }
+
+  .diag-search-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .diag-search-wrap h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .search-box input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+
+  #diagResults {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  #diagResults::-webkit-scrollbar { width: 4px; }
+  #diagResults::-webkit-scrollbar-track { background: transparent; }
+  #diagResults::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .diag-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .diag-item .diag-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .diag-item .diag-text {
+    font-size: 0.83rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .diag-item .diag-severity {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  .sev-alta { background: rgba(232,75,75,0.12); color: var(--red); }
+  .sev-media { background: rgba(232,184,75,0.12); color: var(--accent); }
+  .sev-baixa { background: rgba(75,232,160,0.12); color: var(--green); }
+
+  .diag-symptom-list {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .diag-symptom-list h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .symptom-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--text2);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    margin-bottom: 6px;
+    transition: all 0.2s;
+  }
+  .symptom-btn:hover { background: var(--card); border-color: var(--accent); color: var(--accent); }
+
+  /* MANUTENCAO */
+  .manut-timeline {
+    position: relative;
+    padding-left: 36px;
+  }
+  .manut-timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+
+  .manut-item {
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .manut-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .manut-km {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .manut-item h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    color: var(--white);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .manut-item p {
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .manut-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .chip {
+    font-size: 0.78rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+
+  /* SISTEMAS ELETRONICOS */
+  .elet-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .elet-tab {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .elet-tab.active, .elet-tab:hover {
+    background: var(--ford-blue2);
+    color: white;
+    border-color: var(--ford-blue2);
+  }
+
+  .elet-panel { display: none; }
+  .elet-panel.active { display: block; }
+
+  .elet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .elet-card {
+    background: var(--card);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 0.75rem 1.25rem;
+    padding: 20px;
+  }
+  .elet-card h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .elet-card p {
     font-size: 0.85rem;
-    color: var(--text);
-    z-index: 999;
-    transform: translateY(100px);
-    opacity: 0;
-    transition: all 0.3s ease;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .elet-card .elet-status {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--text3);
   }
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { border-color: var(--easy); }
-  .toast.info { border-color: var(--accent); }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    header { padding: 0 1rem; gap: 1rem; }
-    main { padding: 1rem; }
-    .header-stats { gap: 0.75rem; }
-    .stat-pill { font-size: 0.7rem; }
-    .card-grid { grid-template-columns: 1fr; }
+  .elet-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
   }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 40px 32px;
+    text-align: center;
+  }
+  footer p {
+    font-size: 0.85rem;
+    color: var(--text3);
+  }
+  footer strong { color: var(--text2); }
+
+  /* QUIZ */
+  .quiz-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .quiz-q {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .quiz-opt {
+    text-align: left;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--ford-blue2); background: rgba(0,87,217,0.1); }
+  .quiz-opt.correct { background: rgba(75,232,160,0.1); border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong { background: rgba(232,75,75,0.1); border-color: var(--red); color: var(--red); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(75,232,160,0.08); color: var(--green); border: 1px solid rgba(75,232,160,0.2); }
+  .quiz-feedback.fail { background: rgba(232,75,75,0.08); color: #ff8080; border: 1px solid rgba(232,75,75,0.2); }
+
+  .quiz-progress {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text3);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .quiz-score-bar {
+    height: 3px;
+    background: var(--bg3);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .quiz-score-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ford-blue2), var(--accent));
+    border-radius: 100px;
+    transition: width 0.5s ease;
+  }
+
+  .section-divider {
+    width: 64px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ford-blue2), var(--accent));
+    border-radius: 100px;
+    margin: 20px 0 40px;
+  }
+
+
+  /* RESPONSIVIDADE — celulares e tablets
+     Mantém a identidade visual original, mas adapta largura, espaçamento,
+     menu, grids, canvas, tabelas e cards para telas pequenas. */
+  .menu-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(30,35,48,0.9);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .menu-toggle span {
+    width: 18px;
+    height: 2px;
+    border-radius: 100px;
+    background: var(--accent);
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .menu-toggle:hover {
+    border-color: rgba(232,184,75,0.45);
+    background: rgba(232,184,75,0.08);
+  }
+
+  body.menu-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  body.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
+  body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  img, svg, canvas, table { max-width: 100%; }
+
+  @media (max-width: 1024px) {
+    header { padding: 0 22px; }
+    .container { max-width: 920px; padding: 0 24px; }
+    section { padding: 78px 0; }
+    .cards-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .engine-layout { gap: 28px; }
+    .manutencao-grid, section#manutencao .container > div[style*="grid-template-columns:1fr 1fr"] {
+      gap: 32px !important;
+    }
+  }
+
+  @media (max-width: 860px) {
+    header {
+      height: 62px;
+      padding: 0 18px;
+    }
+
+    .logo {
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      max-width: calc(100% - 56px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .menu-toggle { display: flex; }
+
+    nav {
+      display: none;
+      position: fixed;
+      top: 62px;
+      left: 0;
+      right: 0;
+      background: rgba(13,15,20,0.98);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      padding: 12px 16px 18px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      box-shadow: 0 24px 50px rgba(0,0,0,0.35);
+    }
+
+    body.menu-open nav { display: grid; }
+
+    nav a {
+      display: block;
+      text-align: center;
+      padding: 12px 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.78rem;
+    }
+
+    nav a:hover { background: rgba(232,184,75,0.1); }
+
+    .hero {
+      min-height: auto;
+      padding: 112px 0 86px;
+    }
+
+    .hero-content { padding: 0 20px; }
+    .hero-badge { margin-bottom: 24px; }
+    .hero-sub { margin-bottom: 34px; }
+    .hero-stats { gap: 18px; }
+
+    .hero-stat {
+      min-width: calc(50% - 18px);
+      background: rgba(30,35,48,0.48);
+      border: 1px solid rgba(42,47,62,0.72);
+      border-radius: 12px;
+      padding: 14px 10px;
+    }
+
+    .hero-scroll { bottom: 18px; }
+
+    .engine-layout,
+    .consumo-grid,
+    .diag-intro,
+    section#manutencao .container > div[style*="grid-template-columns:1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    .engine-diagram {
+      aspect-ratio: auto;
+      min-height: 300px;
+      padding: 24px;
+    }
+
+    .cycle-wrap { grid-template-columns: 1fr 1fr; }
+
+    .engine-anim-wrap { padding: 28px 20px; }
+    #engineCanvas {
+      width: 100%;
+      height: auto;
+      max-width: 500px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 15px; line-height: 1.65; }
+    header { padding: 0 14px; }
+    .logo { font-size: 0.82rem; letter-spacing: 1.4px; }
+
+    nav {
+      grid-template-columns: 1fr;
+      max-height: calc(100vh - 62px);
+      overflow-y: auto;
+    }
+
+    section { padding: 62px 0; }
+    .container { padding: 0 16px; }
+    .section-label { font-size: 0.66rem; letter-spacing: 2px; }
+    .section-label::before { width: 22px; }
+    .section-desc { margin-bottom: 34px; }
+
+    .hero {
+      padding: 102px 0 74px;
+    }
+
+    .hero-grid { background-size: 34px 34px; }
+    .hero h1 {
+      font-size: clamp(2.35rem, 18vw, 3.55rem);
+      line-height: 0.98;
+    }
+    .hero-sub { font-size: 1rem; }
+    .hero-stats { gap: 10px; }
+    .hero-stat { min-width: calc(50% - 5px); padding: 12px 8px; }
+    .hero-stat .num { font-size: 1.45rem; }
+    .hero-stat .lbl { font-size: 0.68rem; }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      border-radius: 10px;
+    }
+    .card, .consumo-card, .diag-search-wrap, .diag-symptom-list, .quiz-wrap {
+      padding: 22px;
+    }
+
+    .engine-diagram {
+      min-height: 260px;
+      padding: 18px;
+    }
+
+    .part-header { padding: 14px 16px; }
+    .part-body { padding: 0 16px 16px; }
+
+    .cycle-wrap { grid-template-columns: 1fr; }
+    .cycle-step { padding: 24px 18px; }
+
+    .engine-anim-wrap { padding: 22px 14px; }
+    .anim-controls { gap: 8px; }
+    .btn {
+      width: 100%;
+      padding: 11px 16px;
+    }
+    .anim-controls .btn { width: calc(50% - 4px); }
+    .anim-controls .btn:first-child { width: 100%; }
+
+    .search-box { flex-direction: column; }
+    .search-box .btn { width: 100%; }
+
+    .elet-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .elet-tab {
+      width: 100%;
+      padding: 10px 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.8px;
+    }
+    .elet-grid { grid-template-columns: 1fr; }
+
+    .manut-timeline { padding-left: 28px; }
+    .manut-item::before { left: -24px; }
+
+    .quiz-q { font-size: 1.05rem; }
+    .quiz-opt { padding: 12px 14px; }
+
+    footer { padding: 34px 18px; }
+  }
+
+  @media (max-width: 390px) {
+    .hero-stat { min-width: 100%; }
+    .anim-controls .btn { width: 100%; }
+    .elet-tabs { grid-template-columns: 1fr; }
+    .card, .consumo-card, .diag-search-wrap, .diag-symptom-list, .quiz-wrap { padding: 18px; }
+  }
+
+  @media (hover: none) {
+    .card:hover,
+    .cycle-step:hover,
+    .part-header:hover { background: var(--card); }
+  }
+
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="logo">LC<span>/</span>75 <span style="color:var(--accent);margin-left:4px">Tracker</span></div>
-  <div class="header-stats">
-    <div class="stat-pill">
-      <span class="dot" style="background:var(--easy)"></span>
-      <strong id="stat-done">0</strong> feitos
-    </div>
-    <div class="stat-pill">
-      <span class="dot" style="background:var(--accent2)"></span>
-      <strong id="stat-mastered">0</strong> dominados
-    </div>
-    <div class="stat-pill">
-      <span class="dot" style="background:var(--warn)"></span>
-      <strong id="stat-review">0</strong> revisar hoje
-    </div>
-  </div>
+  <div class="logo">Ford <span>Fiesta</span> 1.6 · 2007</div>
+  <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mainNav" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="mainNav">
+    <a href="#motor">Motor</a>
+    <a href="#ciclo">Ciclo</a>
+    <a href="#consumo">Consumo</a>
+    <a href="#eletronico">Elétrica</a>
+    <a href="#manutencao">Manutenção</a>
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
 </header>
 
-<main>
-  <!-- HERO -->
-  <div class="hero">
-    <h1>LeetCode <em>75</em></h1>
-    <p>Rastreie seu progresso com repetição espaçada. Resolva, marque e deixe o algoritmo te dizer quando revisar.</p>
-    <div class="progress-wrap">
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-      </div>
-      <div class="progress-label">
-        <span id="progress-text">0 / 75 problemas iniciados</span>
-        <span id="progress-pct">0%</span>
-      </div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">📘 Guia Técnico Completo para Leigos</div>
+    <h1>Ford Fiesta<br><span class="line2">1.6 · 2007</span></h1>
+    <p class="hero-sub">Entenda do zero o funcionamento mecânico e eletrônico do seu carro. Motor, ciclo de combustão, consumo, sensores, manutenção e diagnóstico de falhas.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">97cv</span><span class="lbl">Potência</span></div>
+      <div class="hero-stat"><span class="num">1.596cc</span><span class="lbl">Cilindrada</span></div>
+      <div class="hero-stat"><span class="num">4 cil.</span><span class="lbl">Cilindros</span></div>
+      <div class="hero-stat"><span class="num">~12 km/l</span><span class="lbl">Consumo médio</span></div>
     </div>
   </div>
-
-  <!-- REVIEW ALERT -->
-  <div class="review-alert hidden" id="review-alert" onclick="filterByDue()">
-    <div class="alert-icon">⏰</div>
-    <div class="alert-text">
-      <strong id="alert-count">0 problemas para revisar hoje!</strong>
-      <span>Clique aqui para ver apenas os problemas que precisam de revisão.</span>
-    </div>
-  </div>
-
-  <!-- CONTROLS -->
-  <div class="controls">
-    <input class="search-input" type="text" id="search" placeholder="🔍  buscar problema..." oninput="renderAll()">
-    <button class="filter-btn active" id="btn-all" onclick="setFilter('all')">Todos</button>
-    <button class="filter-btn" id="btn-due" onclick="setFilter('due')">Revisar</button>
-    <button class="filter-btn" id="btn-done" onclick="setFilter('done')">Feitos</button>
-    <button class="filter-btn" id="btn-undone" onclick="setFilter('undone')">Não feitos</button>
-    <button class="filter-btn" id="btn-mastered" onclick="setFilter('mastered')">Dominados</button>
-  </div>
-
-  <div id="content"></div>
-</main>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
-  <div class="modal" id="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-header">
-      <div class="modal-num" id="m-num"></div>
-      <div class="modal-title" id="m-title"></div>
-      <a class="modal-link" id="m-link" target="_blank">↗ Abrir no LeetCode</a>
-    </div>
-
-    <div class="modal-section">
-      <div class="modal-label">Tentativas feitas</div>
-      <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-        <div class="attempt-counter">
-          <div>
-            <div class="attempt-num" id="m-count">0</div>
-          </div>
-          <div class="attempt-btns">
-            <button class="attempt-btn" onclick="changeCount(1)">▲</button>
-            <button class="attempt-btn" onclick="changeCount(-1)">▼</button>
-          </div>
-        </div>
-        <button class="log-btn" onclick="logAttempt()">✓ Registrar tentativa hoje</button>
-      </div>
-    </div>
-
-    <div class="modal-section">
-      <div class="modal-label">Status de domínio</div>
-      <div class="mastery-toggle">
-        <button class="mastery-btn" id="btn-learning" onclick="setMastery('learning')">📚 Ainda aprendendo</button>
-        <button class="mastery-btn" id="btn-mastered-m" onclick="setMastery('mastered')">⚡ Domino!</button>
-      </div>
-    </div>
-
-    <div class="modal-section">
-      <div class="modal-label">Repetição Espaçada</div>
-      <div class="sr-info">
-        <div class="sr-row">
-          <span class="sr-label">Última tentativa</span>
-          <span class="sr-val" id="m-last">—</span>
-        </div>
-        <div class="sr-row">
-          <span class="sr-label">Próxima revisão</span>
-          <span class="sr-val" id="m-next">—</span>
-        </div>
-        <div class="sr-row">
-          <span class="sr-label">Intervalo atual</span>
-          <span class="sr-val" id="m-interval">—</span>
-        </div>
-        <div class="sr-row">
-          <span class="sr-label">Fator de facilidade (EF)</span>
-          <span class="sr-val" id="m-ef">—</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-section" id="m-history-section" style="display:none">
-      <div class="modal-label">Histórico</div>
-      <div class="history-list" id="m-history"></div>
-    </div>
+  <div class="hero-scroll">
+    <svg width="16" height="24" viewBox="0 0 16 24"><rect x="5" y="2" width="6" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="14" x2="8" y2="22" stroke="currentColor" stroke-width="1.5"/><polyline points="5,19 8,22 11,19" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    Role para explorar
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<!-- MOTOR -->
+<section id="motor">
+  <div class="container">
+    <div class="section-label">01 — Motor</div>
+    <h2 class="section-title">Como funciona<br>o Motor Sigma 1.6</h2>
+    <p class="section-desc">O Fiesta 2007 usa o motor Sigma 1.6 8V. Clique em cada peça para entender o que ela faz, por que importa e o que acontece se quebrar.</p>
 
-<script>
-// ── DATA: All 75 LeetCode 75 problems ──
-const PROBLEMS = [
-  // Array / String
-  {id:1,  no:1768, title:"Merge Strings Alternately",       group:"Array / String",        diff:"Easy",   tags:["Two Pointers","String"]},
-  {id:2,  no:1071, title:"Greatest Common Divisor of Strings", group:"Array / String",     diff:"Easy",   tags:["String","Math"]},
-  {id:3,  no:1431, title:"Kids With the Greatest Number of Candies", group:"Array / String", diff:"Easy", tags:["Array","Greedy"]},
-  {id:4,  no:605,  title:"Can Place Flowers",               group:"Array / String",        diff:"Easy",   tags:["Array","Greedy"]},
-  {id:5,  no:345,  title:"Reverse Vowels of a String",      group:"Array / String",        diff:"Easy",   tags:["Two Pointers","String"]},
-  {id:6,  no:151,  title:"Reverse Words in a String",       group:"Array / String",        diff:"Medium", tags:["Two Pointers","String"]},
-  {id:7,  no:238,  title:"Product of Array Except Self",    group:"Array / String",        diff:"Medium", tags:["Array","Prefix Sum"]},
-  {id:8,  no:334,  title:"Increasing Triplet Subsequence",  group:"Array / String",        diff:"Medium", tags:["Array","Greedy"]},
-  {id:9,  no:443,  title:"String Compression",              group:"Array / String",        diff:"Medium", tags:["Two Pointers","String"]},
-  // Two Pointers
-  {id:10, no:283,  title:"Move Zeroes",                     group:"Two Pointers",          diff:"Easy",   tags:["Array","Two Pointers"]},
-  {id:11, no:392,  title:"Is Subsequence",                  group:"Two Pointers",          diff:"Easy",   tags:["Two Pointers","String"]},
-  {id:12, no:11,   title:"Container With Most Water",       group:"Two Pointers",          diff:"Medium", tags:["Array","Greedy"]},
-  {id:13, no:1679, title:"Max Number of K-Sum Pairs",       group:"Two Pointers",          diff:"Medium", tags:["Array","Hash Table"]},
-  // Sliding Window
-  {id:14, no:643,  title:"Maximum Average Subarray I",      group:"Sliding Window",        diff:"Easy",   tags:["Array","Sliding Window"]},
-  {id:15, no:1456, title:"Maximum Number of Vowels in a Substring", group:"Sliding Window", diff:"Medium", tags:["String","Sliding Window"]},
-  {id:16, no:1004, title:"Max Consecutive Ones III",        group:"Sliding Window",        diff:"Medium", tags:["Array","Sliding Window"]},
-  {id:17, no:1493, title:"Longest Subarray of 1's After Deleting One Element", group:"Sliding Window", diff:"Medium", tags:["Array","Sliding Window"]},
-  // Prefix Sum
-  {id:18, no:1732, title:"Find the Highest Altitude",       group:"Prefix Sum",            diff:"Easy",   tags:["Array","Prefix Sum"]},
-  {id:19, no:724,  title:"Find Pivot Index",                group:"Prefix Sum",            diff:"Easy",   tags:["Array","Prefix Sum"]},
-  // Hash Map / Set
-  {id:20, no:2215, title:"Find the Difference of Two Arrays", group:"Hash Map / Set",     diff:"Easy",   tags:["Array","Hash Table"]},
-  {id:21, no:1207, title:"Unique Number of Occurrences",    group:"Hash Map / Set",        diff:"Easy",   tags:["Array","Hash Table"]},
-  {id:22, no:1657, title:"Determine if Two Strings Are Close", group:"Hash Map / Set",    diff:"Medium", tags:["Hash Table","String"]},
-  {id:23, no:2352, title:"Equal Row and Column Pairs",      group:"Hash Map / Set",        diff:"Medium", tags:["Array","Matrix"]},
-  // Stack
-  {id:24, no:2390, title:"Removing Stars From a String",    group:"Stack",                 diff:"Medium", tags:["String","Stack"]},
-  {id:25, no:735,  title:"Asteroid Collision",              group:"Stack",                 diff:"Medium", tags:["Array","Stack"]},
-  {id:26, no:394,  title:"Decode String",                   group:"Stack",                 diff:"Medium", tags:["String","Stack"]},
-  // Queue
-  {id:27, no:933,  title:"Number of Recent Calls",          group:"Queue",                 diff:"Easy",   tags:["Queue"]},
-  {id:28, no:649,  title:"Dota2 Senate",                    group:"Queue",                 diff:"Medium", tags:["Greedy","Queue"]},
-  // Linked List
-  {id:29, no:2095, title:"Delete the Middle Node of a Linked List", group:"Linked List",  diff:"Medium", tags:["Linked List","Two Pointers"]},
-  {id:30, no:328,  title:"Odd Even Linked List",            group:"Linked List",           diff:"Medium", tags:["Linked List"]},
-  {id:31, no:206,  title:"Reverse Linked List",             group:"Linked List",           diff:"Easy",   tags:["Linked List","Recursion"]},
-  {id:32, no:2130, title:"Maximum Twin Sum of a Linked List", group:"Linked List",        diff:"Medium", tags:["Linked List","Two Pointers"]},
-  // Binary Tree - DFS
-  {id:33, no:104,  title:"Maximum Depth of Binary Tree",    group:"Binary Tree — DFS",     diff:"Easy",   tags:["Tree","DFS"]},
-  {id:34, no:872,  title:"Leaf-Similar Trees",              group:"Binary Tree — DFS",     diff:"Easy",   tags:["Tree","DFS"]},
-  {id:35, no:1448, title:"Count Good Nodes in Binary Tree", group:"Binary Tree — DFS",     diff:"Medium", tags:["Tree","DFS"]},
-  {id:36, no:437,  title:"Path Sum III",                    group:"Binary Tree — DFS",     diff:"Medium", tags:["Tree","DFS","Prefix Sum"]},
-  {id:37, no:1372, title:"Longest ZigZag Path in a Binary Tree", group:"Binary Tree — DFS", diff:"Medium", tags:["DP","Tree","DFS"]},
-  {id:38, no:236,  title:"Lowest Common Ancestor of a Binary Tree", group:"Binary Tree — DFS", diff:"Medium", tags:["Tree","DFS"]},
-  // Binary Tree - BFS
-  {id:39, no:199,  title:"Binary Tree Right Side View",     group:"Binary Tree — BFS",     diff:"Medium", tags:["Tree","BFS"]},
-  {id:40, no:1161, title:"Maximum Level Sum of a Binary Tree", group:"Binary Tree — BFS", diff:"Medium", tags:["Tree","BFS"]},
-  // Binary Search Tree
-  {id:41, no:700,  title:"Search in a Binary Search Tree",  group:"Binary Search Tree",    diff:"Easy",   tags:["Tree","BST"]},
-  {id:42, no:450,  title:"Delete Node in a BST",            group:"Binary Search Tree",    diff:"Medium", tags:["Tree","BST"]},
-  // Graphs - DFS
-  {id:43, no:841,  title:"Keys and Rooms",                  group:"Graphs — DFS",          diff:"Medium", tags:["Graph","DFS"]},
-  {id:44, no:547,  title:"Number of Provinces",             group:"Graphs — DFS",          diff:"Medium", tags:["Graph","DFS","Union Find"]},
-  {id:45, no:1466, title:"Reorder Routes to Make All Paths Lead to the City Zero", group:"Graphs — DFS", diff:"Medium", tags:["Graph","DFS"]},
-  {id:46, no:399,  title:"Evaluate Division",               group:"Graphs — DFS",          diff:"Medium", tags:["Graph","DFS","BFS"]},
-  // Graphs - BFS
-  {id:47, no:1926, title:"Nearest Exit from Entrance in Maze", group:"Graphs — BFS",      diff:"Medium", tags:["Graph","BFS"]},
-  {id:48, no:994,  title:"Rotting Oranges",                 group:"Graphs — BFS",          diff:"Medium", tags:["Array","BFS"]},
-  // Heap / Priority Queue
-  {id:49, no:215,  title:"Kth Largest Element in an Array", group:"Heap / Priority Queue", diff:"Medium", tags:["Array","Heap","Sorting"]},
-  {id:50, no:2336, title:"Smallest Number in Infinite Set",  group:"Heap / Priority Queue", diff:"Medium", tags:["Heap","Design"]},
-  {id:51, no:2542, title:"Maximum Subsequence Score",        group:"Heap / Priority Queue", diff:"Medium", tags:["Array","Greedy","Heap"]},
-  {id:52, no:2462, title:"Total Cost to Hire K Workers",    group:"Heap / Priority Queue", diff:"Medium", tags:["Array","Heap","Simulation"]},
-  // Binary Search
-  {id:53, no:374,  title:"Guess Number Higher or Lower",    group:"Binary Search",         diff:"Easy",   tags:["Binary Search"]},
-  {id:54, no:2300, title:"Successful Pairs of Spells and Potions", group:"Binary Search",  diff:"Medium", tags:["Array","Binary Search"]},
-  {id:55, no:162,  title:"Find Peak Element",               group:"Binary Search",         diff:"Medium", tags:["Array","Binary Search"]},
-  {id:56, no:875,  title:"Koko Eating Bananas",             group:"Binary Search",         diff:"Medium", tags:["Array","Binary Search"]},
-  // Backtracking
-  {id:57, no:17,   title:"Letter Combinations of a Phone Number", group:"Backtracking",   diff:"Medium", tags:["Hash Table","Backtracking"]},
-  {id:58, no:216,  title:"Combination Sum III",             group:"Backtracking",          diff:"Medium", tags:["Array","Backtracking"]},
-  // DP - 1D
-  {id:59, no:1137, title:"N-th Tribonacci Number",          group:"DP — 1D",               diff:"Easy",   tags:["Memoization","DP"]},
-  {id:60, no:746,  title:"Min Cost Climbing Stairs",        group:"DP — 1D",               diff:"Easy",   tags:["Array","DP"]},
-  {id:61, no:198,  title:"House Robber",                    group:"DP — 1D",               diff:"Medium", tags:["Array","DP"]},
-  {id:62, no:790,  title:"Domino and Tromino Tiling",       group:"DP — 1D",               diff:"Medium", tags:["DP"]},
-  // DP - Multidimensional
-  {id:63, no:62,   title:"Unique Paths",                    group:"DP — Multidimensional", diff:"Medium", tags:["Memoization","DP"]},
-  {id:64, no:1143, title:"Longest Common Subsequence",      group:"DP — Multidimensional", diff:"Medium", tags:["String","DP"]},
-  {id:65, no:714,  title:"Best Time to Buy and Sell Stock with Transaction Fee", group:"DP — Multidimensional", diff:"Medium", tags:["Array","DP","Greedy"]},
-  {id:66, no:72,   title:"Edit Distance",                   group:"DP — Multidimensional", diff:"Medium", tags:["String","DP"]},
-  // Bit Manipulation
-  {id:67, no:338,  title:"Counting Bits",                   group:"Bit Manipulation",      diff:"Easy",   tags:["Bit Manipulation","DP"]},
-  {id:68, no:136,  title:"Single Number",                   group:"Bit Manipulation",      diff:"Easy",   tags:["Array","Bit Manipulation"]},
-  {id:69, no:1318, title:"Minimum Flips to Make a OR b Equal to c", group:"Bit Manipulation", diff:"Medium", tags:["Bit Manipulation"]},
-  // Trie
-  {id:70, no:208,  title:"Implement Trie (Prefix Tree)",    group:"Trie",                  diff:"Medium", tags:["Design","Trie"]},
-  {id:71, no:1268, title:"Search Suggestions System",       group:"Trie",                  diff:"Medium", tags:["Array","Trie","Sorting"]},
-  // Intervals
-  {id:72, no:435,  title:"Non-overlapping Intervals",       group:"Intervals",             diff:"Medium", tags:["Array","Greedy","Sorting"]},
-  {id:73, no:452,  title:"Minimum Number of Arrows to Burst Balloons", group:"Intervals", diff:"Medium", tags:["Array","Greedy","Sorting"]},
-  // Monotonic Stack
-  {id:74, no:739,  title:"Daily Temperatures",              group:"Monotonic Stack",       diff:"Medium", tags:["Array","Stack","Monotonic Stack"]},
-  {id:75, no:901,  title:"Online Stock Span",               group:"Monotonic Stack",       diff:"Medium", tags:["Stack","Design","Monotonic Stack"]},
-];
+    <div class="engine-layout">
+      <div>
+        <!-- SVG MOTOR SIMPLIFICADO -->
+        <div class="engine-diagram">
+          <svg class="engine-svg-wrap" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- bloco motor -->
+            <rect x="60" y="80" width="180" height="160" rx="8" fill="#1e2330" stroke="#2a2f3e" stroke-width="1.5"/>
+            <!-- cabeçote -->
+            <rect x="60" y="60" width="180" height="30" rx="4" fill="#252b3a" stroke="#2a2f3e" stroke-width="1.5"/>
+            <!-- cárter -->
+            <rect x="70" y="240" width="160" height="24" rx="4" fill="#1a1e28" stroke="#2a2f3e" stroke-width="1.5"/>
+            <!-- cilindros -->
+            <rect x="80" y="90" width="28" height="100" rx="3" fill="#161a23" stroke="#3a4050" stroke-width="1"/>
+            <rect x="116" y="90" width="28" height="100" rx="3" fill="#161a23" stroke="#3a4050" stroke-width="1"/>
+            <rect x="152" y="90" width="28" height="100" rx="3" fill="#161a23" stroke="#3a4050" stroke-width="1"/>
+            <rect x="188" y="90" width="28" height="100" rx="3" fill="#161a23" stroke="#3a4050" stroke-width="1"/>
+            <!-- pistoes -->
+            <rect x="84" y="150" width="20" height="16" rx="2" fill="#e8b84b" opacity="0.8" id="p1"/>
+            <rect x="120" y="130" width="20" height="16" rx="2" fill="#e8b84b" opacity="0.8" id="p2"/>
+            <rect x="156" y="160" width="20" height="16" rx="2" fill="#e8b84b" opacity="0.8" id="p3"/>
+            <rect x="192" y="140" width="20" height="16" rx="2" fill="#e8b84b" opacity="0.8" id="p4"/>
+            <!-- virabrequim -->
+            <ellipse cx="150" cy="230" rx="60" ry="16" fill="#252b3a" stroke="#3a4050" stroke-width="1.5"/>
+            <circle cx="150" cy="230" r="8" fill="#e8b84b" opacity="0.6"/>
+            <!-- bielas (linhas) -->
+            <line x1="94" y1="166" x2="128" y2="228" stroke="#3a4050" stroke-width="1.5"/>
+            <line x1="130" y1="146" x2="147" y2="224" stroke="#3a4050" stroke-width="1.5"/>
+            <line x1="166" y1="176" x2="153" y2="226" stroke="#3a4050" stroke-width="1.5"/>
+            <line x1="202" y1="156" x2="172" y2="228" stroke="#3a4050" stroke-width="1.5"/>
+            <!-- válvulas (cabeçote) -->
+            <circle cx="94" cy="72" r="5" fill="#0057d9" opacity="0.7"/>
+            <circle cx="108" cy="72" r="5" fill="#e84b4b" opacity="0.7"/>
+            <circle cx="130" cy="72" r="5" fill="#0057d9" opacity="0.7"/>
+            <circle cx="144" cy="72" r="5" fill="#e84b4b" opacity="0.7"/>
+            <circle cx="156" cy="72" r="5" fill="#0057d9" opacity="0.7"/>
+            <circle cx="170" cy="72" r="5" fill="#e84b4b" opacity="0.7"/>
+            <circle cx="192" cy="72" r="5" fill="#0057d9" opacity="0.7"/>
+            <circle cx="206" cy="72" r="5" fill="#e84b4b" opacity="0.7"/>
+            <!-- legenda válvulas -->
+            <circle cx="68" cy="46" r="4" fill="#0057d9" opacity="0.7"/>
+            <text x="76" y="50" fill="#8892a4" font-size="9" font-family="sans-serif">Admissão</text>
+            <circle cx="120" cy="46" r="4" fill="#e84b4b" opacity="0.7"/>
+            <text x="128" y="50" fill="#8892a4" font-size="9" font-family="sans-serif">Escape</text>
 
-// ── SM-2 Spaced Repetition Algorithm ──
-const SR_INTERVALS = [1, 3, 7, 14, 30, 60, 120, 240]; // days
-
-function getNextInterval(n, ef, mastered) {
-  if (n === 0) return 0;
-  if (mastered) {
-    const base = [1, 3, 7, 21, 60, 180];
-    return base[Math.min(n - 1, base.length - 1)];
-  }
-  if (n === 1) return 1;
-  if (n === 2) return 3;
-  return Math.round(getNextInterval(n - 1, ef, false) * ef);
-}
-
-function daysFromNow(dateStr) {
-  if (!dateStr) return null;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr); d.setHours(0,0,0,0);
-  return Math.round((d - today) / 86400000);
-}
-
-function todayStr() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('pt-BR', {day:'2-digit',month:'short',year:'numeric'});
-}
-
-// ── STATE ──
-let state = {}; // {[id]: {count, mastered, ef, lastDate, nextDate, history:[{date, count}]}}
-let currentFilter = 'all';
-let currentModal = null;
-
-function loadState() {
-  try { state = JSON.parse(localStorage.getItem('lc75_state') || '{}'); } catch { state = {}; }
-}
-function saveState() {
-  localStorage.setItem('lc75_state', JSON.stringify(state));
-}
-function getP(id) {
-  if (!state[id]) state[id] = {count:0, mastered:false, ef:2.5, lastDate:null, nextDate:null, history:[]};
-  return state[id];
-}
-
-// ── CARD STATUS ──
-function getStatus(id) {
-  const p = getP(id);
-  if (p.count === 0) return 'undone';
-  const days = daysFromNow(p.nextDate);
-  if (days !== null && days <= 0) return 'due';
-  if (p.mastered) return 'mastered';
-  return 'done';
-}
-
-// ── STATS ──
-function updateStats() {
-  let done = 0, mastered = 0, due = 0;
-  PROBLEMS.forEach(pr => {
-    const s = getStatus(pr.id);
-    if (s !== 'undone') done++;
-    if (s === 'mastered') mastered++;
-    if (s === 'due') due++;
-  });
-  document.getElementById('stat-done').textContent = done;
-  document.getElementById('stat-mastered').textContent = mastered;
-  document.getElementById('stat-review').textContent = due;
-
-  const started = PROBLEMS.filter(pr => getP(pr.id).count > 0).length;
-  const pct = Math.round((started / 75) * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = `${started} / 75 problemas iniciados`;
-  document.getElementById('progress-pct').textContent = pct + '%';
-
-  // Review alert
-  const alert = document.getElementById('review-alert');
-  if (due > 0) {
-    alert.classList.remove('hidden');
-    document.getElementById('alert-count').textContent = `${due} problema${due>1?'s':''} para revisar hoje!`;
-  } else {
-    alert.classList.add('hidden');
-  }
-}
-
-// ── RENDER ──
-function setFilter(f) {
-  currentFilter = f;
-  ['all','due','done','undone','mastered'].forEach(x => {
-    document.getElementById('btn-'+x).classList.toggle('active', x === f);
-  });
-  renderAll();
-}
-
-function filterByDue() {
-  setFilter('due');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function filterProblems(list) {
-  const q = document.getElementById('search').value.toLowerCase();
-  return list.filter(pr => {
-    const s = getStatus(pr.id);
-    let pass = true;
-    if (currentFilter === 'due') pass = s === 'due';
-    else if (currentFilter === 'done') pass = s !== 'undone';
-    else if (currentFilter === 'undone') pass = s === 'undone';
-    else if (currentFilter === 'mastered') pass = s === 'mastered';
-    if (!pass) return false;
-    if (q) {
-      return pr.title.toLowerCase().includes(q) ||
-             pr.group.toLowerCase().includes(q) ||
-             pr.tags.some(t => t.toLowerCase().includes(q)) ||
-             String(pr.no).includes(q);
-    }
-    return true;
-  });
-}
-
-function nextReviewLabel(id) {
-  const p = getP(id);
-  if (!p.nextDate) return '';
-  const days = daysFromNow(p.nextDate);
-  if (days < 0) return `⚠ venceu há ${-days}d`;
-  if (days === 0) return '✓ hoje';
-  if (days === 1) return 'amanhã';
-  return `em ${days}d`;
-}
-
-function attemptDots(count) {
-  const dots = [];
-  for (let i = 0; i < Math.min(count, 5); i++) {
-    dots.push(`<div class="attempt-dot ${i<count?'filled':''}"></div>`);
-  }
-  if (count > 5) dots.push(`<div class="attempt-dot extra"></div>`);
-  return dots.join('');
-}
-
-function renderAll() {
-  const content = document.getElementById('content');
-  const groups = {};
-  PROBLEMS.forEach(pr => { if (!groups[pr.group]) groups[pr.group] = []; groups[pr.group].push(pr); });
-
-  const q = document.getElementById('search').value.toLowerCase();
-  const filtered = filterProblems(PROBLEMS);
-
-  if (filtered.length === 0) {
-    content.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Nenhum problema encontrado.</p></div>';
-    return;
-  }
-
-  // Group filtered
-  const filteredGroups = {};
-  filtered.forEach(pr => {
-    if (!filteredGroups[pr.group]) filteredGroups[pr.group] = [];
-    filteredGroups[pr.group].push(pr);
-  });
-
-  let html = '';
-  Object.entries(filteredGroups).forEach(([group, probs]) => {
-    html += `
-      <div class="section-header">
-        <span class="section-title">${group}</span>
-        <span class="section-count">${probs.length}</span>
+            <!-- HOTSPOTS clicáveis -->
+            <g class="part-hotspot" onclick="togglePart('pistao')" title="Pistão">
+              <circle cx="94" cy="158" r="7" fill="rgba(232,184,75,0.3)" stroke="#e8b84b" stroke-width="1.5"/>
+              <text x="94" y="162" text-anchor="middle" fill="#e8b84b" font-size="8" font-family="sans-serif" font-weight="bold">P</text>
+            </g>
+            <g class="part-hotspot" onclick="togglePart('virabrequim')" title="Virabrequim">
+              <circle cx="150" cy="230" r="7" fill="rgba(0,87,217,0.3)" stroke="#0057d9" stroke-width="1.5"/>
+              <text x="150" y="234" text-anchor="middle" fill="#6eb3ff" font-size="8" font-family="sans-serif" font-weight="bold">V</text>
+            </g>
+            <g class="part-hotspot" onclick="togglePart('cabecote')" title="Cabeçote">
+              <circle cx="150" cy="65" r="7" fill="rgba(75,232,160,0.2)" stroke="#4be8a0" stroke-width="1.5"/>
+              <text x="150" y="69" text-anchor="middle" fill="#4be8a0" font-size="8" font-family="sans-serif" font-weight="bold">C</text>
+            </g>
+          </svg>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:14px; font-size:0.78rem; color:var(--text3); justify-content:center; flex-wrap:wrap;">
+          <span>🟡 <b style="color:var(--text2)">P</b> = Clique no pistão</span>
+          <span>🔵 <b style="color:var(--text2)">V</b> = Virabrequim</span>
+          <span>🟢 <b style="color:var(--text2)">C</b> = Cabeçote</span>
+        </div>
       </div>
-      <div class="card-grid">
-    `;
-    probs.forEach(pr => {
-      const p = getP(pr.id);
-      const s = getStatus(pr.id);
-      const reviewLabel = nextReviewLabel(pr.id);
-      const reviewClass = reviewLabel.includes('⚠') ? 'overdue' : reviewLabel.includes('hoje') ? 'today' : '';
 
-      let cardClass = '';
-      if (s === 'mastered') cardClass = 'mastered';
-      else if (s === 'due') cardClass = 'due-review';
-      else if (s === 'done') cardClass = 'done';
-
-      html += `
-        <div class="card ${cardClass}" onclick="openModal(${pr.id})">
-          <div class="card-top">
-            <span class="card-number">#${pr.no}</span>
-            <div class="card-badges">
-              <span class="badge badge-${pr.diff.toLowerCase()}">${pr.diff}</span>
-              ${p.mastered ? '<span class="badge badge-mastered">⚡ Dominado</span>' : ''}
-              ${s === 'due' ? '<span class="badge badge-review">Revisar</span>' : ''}
-            </div>
+      <div class="engine-info" id="engineInfo">
+        <div class="part-item active" id="part-bloco">
+          <div class="part-header" onclick="togglePart('bloco')">
+            <span class="part-name">Bloco do Motor</span><span class="part-num">01</span>
           </div>
-          <div class="card-title">${pr.title}</div>
-          <div class="card-meta">
-            ${pr.tags.slice(0,2).map(t => `<span class="card-tag">${t}</span>`).join('')}
-          </div>
-          <div class="card-bottom">
-            <div class="attempts-display">
-              ${p.count > 0 ? attemptDots(p.count) : '<span style="font-size:0.7rem;color:var(--muted)">Não feito</span>'}
-              ${p.count > 0 ? `<span style="font-size:0.7rem;color:var(--muted);margin-left:4px">${p.count}×</span>` : ''}
-            </div>
-            ${reviewLabel ? `<span class="next-review ${reviewClass}">${reviewLabel}</span>` : ''}
+          <div class="part-body">
+            <p>É a espinha dorsal do motor. Um bloco de ferro fundido ou alumínio que contém os <b>4 cilindros</b> — os tubos onde os pistões se movem para cima e para baixo. Também abriga os canais de água (arrefecimento) e óleo (lubrificação).</p>
+            <p><b>Se quebrar:</b> Trincas no bloco causam mistura de água com óleo, superaquecimento grave e perda total do motor.</p>
+            <div class="tags"><span class="tag ok">Raramente quebra</span><span class="tag warn">Reparo caro</span></div>
           </div>
         </div>
-      `;
-    });
-    html += '</div>';
-  });
 
-  content.innerHTML = html;
-}
+        <div class="part-item" id="part-pistao">
+          <div class="part-header" onclick="togglePart('pistao')">
+            <span class="part-name">Pistão (Êmbolo)</span><span class="part-num">02</span>
+          </div>
+          <div class="part-body">
+            <p>O pistão é o coração do motor. Ele sobe e desce dentro do cilindro, comprimindo a mistura de ar+combustível e recebendo a força da explosão. O Fiesta 1.6 tem <b>4 pistões</b>, um por cilindro.</p>
+            <p><b>Se quebrar:</b> Batida forte, fumaça branca ou azul, perda de potência. Pode causar dano total ao motor.</p>
+            <div class="tags"><span class="tag warn">Crítico</span><span class="tag info">Troca = revisão geral</span></div>
+          </div>
+        </div>
 
-// ── MODAL ──
-function openModal(id) {
-  currentModal = id;
-  const pr = PROBLEMS.find(x => x.id === id);
-  const p = getP(id);
+        <div class="part-item" id="part-virabrequim">
+          <div class="part-header" onclick="togglePart('virabrequim')">
+            <span class="part-name">Virabrequim</span><span class="part-num">03</span>
+          </div>
+          <div class="part-body">
+            <p>Transforma o movimento linear (cima-baixo) dos pistões em movimento rotativo. É esse giro que chega na roda. As bielas conectam cada pistão ao virabrequim como os pedais de uma bicicleta.</p>
+            <p><b>Se quebrar:</b> Batida seca e forte ("bate biela"), motor trava. Um dos reparos mais caros — geralmente substitui-se o motor.</p>
+            <div class="tags"><span class="tag warn">Crítico</span><span class="tag warn">Reparo = troca do motor</span></div>
+          </div>
+        </div>
 
-  document.getElementById('m-num').textContent = `#${pr.no} · ${pr.group} · ${pr.diff}`;
-  document.getElementById('m-title').textContent = pr.title;
-  document.getElementById('m-link').href = `https://leetcode.com/problems/${pr.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}/`;
-  document.getElementById('m-count').textContent = p.count;
+        <div class="part-item" id="part-cabecote">
+          <div class="part-header" onclick="togglePart('cabecote')">
+            <span class="part-name">Cabeçote + Válvulas</span><span class="part-num">04</span>
+          </div>
+          <div class="part-body">
+            <p>Tampa superior do motor. Contém as <b>8 válvulas</b> (2 por cilindro: admissão e escape), a câmara de combustão e o sistema de arrefecimento. A árvore de cames (camshaft) controla a abertura das válvulas.</p>
+            <p><b>Se quebrar:</b> Junta do cabeçote queimada é a falha mais comum — mistura óleo/água, superaquecimento. Custo médio R$800-1.500.</p>
+            <div class="tags"><span class="tag warn">Junta queima com superaquecimento</span></div>
+          </div>
+        </div>
 
-  updateMasteryUI(p.mastered);
-  updateSRInfo(id);
-  renderHistory(id);
+        <div class="part-item" id="part-carter">
+          <div class="part-header" onclick="togglePart('carter')">
+            <span class="part-name">Cárter + Óleo</span><span class="part-num">05</span>
+          </div>
+          <div class="part-body">
+            <p>Reservatório de óleo embaixo do motor. A bomba de óleo circula o lubrificante por todo o motor, reduzindo atrito entre as peças metálicas. Sem óleo, o motor trava em minutos.</p>
+            <p><b>Se vazar ou acabar:</b> Motor grava, pistões e mancais danificados em segundos. <b>NUNCA</b> ligue o carro sem óleo!</p>
+            <div class="tags"><span class="tag warn">Crítico</span><span class="tag ok">Troque a cada 5.000 km</span></div>
+          </div>
+        </div>
 
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
+        <div class="part-item" id="part-correia">
+          <div class="part-header" onclick="togglePart('correia')">
+            <span class="part-name">Correia Dentada</span><span class="part-num">06</span>
+          </div>
+          <div class="part-body">
+            <p>Sincroniza o virabrequim com a árvore de cames (que controla as válvulas). É uma peça de borracha com dentes que <b>deve ser trocada a cada 60.000 km</b> independente do estado aparente.</p>
+            <p><b>Se romper:</b> Pistões colidem com as válvulas, destruindo o cabeçote instantaneamente. Prejuízo de R$2.000-5.000.</p>
+            <div class="tags"><span class="tag warn">Risco alto se não trocar</span><span class="tag info">Troque a cada 60.000 km</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-  currentModal = null;
-}
+<!-- CICLO DE COMBUSTAO -->
+<section id="ciclo" class="bg-alt">
+  <div class="container">
+    <div class="section-label">02 — Ciclo de Combustão</div>
+    <h2 class="section-title">Os 4 Tempos<br>do Motor</h2>
+    <p class="section-desc">O motor Sigma funciona em 4 tempos — 4 movimentos do pistão para gerar uma explosão e produzir energia. Isso acontece ~1.000 vezes por minuto em marcha lenta!</p>
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
+    <div class="cycle-wrap">
+      <div class="cycle-step">
+        <div class="cycle-number">1</div>
+        <span class="cycle-icon">🌬️</span>
+        <h4>Admissão</h4>
+        <p>O pistão desce e a válvula de admissão abre. Entra ar misturado com combustível (gasolina ou etanol pulverizado pelo injetor).</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-number">2</div>
+        <span class="cycle-icon">🗜️</span>
+        <h4>Compressão</h4>
+        <p>Ambas as válvulas fecham. O pistão sobe, comprimindo a mistura ar+combustível até ~10x o volume original.</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-number">3</div>
+        <span class="cycle-icon">💥</span>
+        <h4>Combustão (Potência)</h4>
+        <p>A vela elétrica produz uma faísca que acende a mistura. A explosão empurra o pistão para baixo com força, gerando o torque do motor.</p>
+      </div>
+      <div class="cycle-step">
+        <div class="cycle-number">4</div>
+        <span class="cycle-icon">💨</span>
+        <h4>Escape</h4>
+        <p>O pistão sobe novamente e a válvula de escape abre. Os gases queimados são expelidos para o escapamento.</p>
+      </div>
+    </div>
 
-function updateMasteryUI(mastered) {
-  const bl = document.getElementById('btn-learning');
-  const bm = document.getElementById('btn-mastered-m');
-  bl.className = 'mastery-btn' + (mastered ? '' : ' active-learning');
-  bm.className = 'mastery-btn' + (mastered ? ' active-mastered' : '');
-}
+    <!-- ANIMAÇÃO MOTOR -->
+    <div class="engine-anim-wrap">
+      <h3>🎬 Animação — Pistão em Ação</h3>
+      <p>Veja o ciclo dos 4 tempos acontecendo em tempo real. Use os botões para controlar a velocidade.</p>
+      <canvas id="engineCanvas" width="500" height="280"></canvas>
+      <div class="anim-controls">
+        <button class="btn btn-primary" id="btnPlay" onclick="toggleAnim()">▶ Iniciar</button>
+        <button class="btn btn-accent" onclick="setAnimSpeed(0.5)">🐢 Lento</button>
+        <button class="btn btn-accent" onclick="setAnimSpeed(1)">Normal</button>
+        <button class="btn btn-accent" onclick="setAnimSpeed(2.5)">🚀 Rápido</button>
+      </div>
+      <div id="cycleLabel" style="margin-top:14px; font-family:'Oswald',sans-serif; font-size:0.95rem; color:var(--accent); letter-spacing:1px; min-height:24px;"></div>
+    </div>
+  </div>
+</section>
 
-function updateSRInfo(id) {
-  const p = getP(id);
-  const nextDays = daysFromNow(p.nextDate);
-  const nextEl = document.getElementById('m-next');
+<!-- CONSUMO -->
+<section id="consumo">
+  <div class="container">
+    <div class="section-label">03 — Consumo</div>
+    <h2 class="section-title">Como o Carro<br>Consome Combustível</h2>
+    <p class="section-desc">O consumo depende de muitos fatores. Entenda como cada sistema impacta o quanto você gasta na bomba.</p>
+    <div class="consumo-grid">
+      <div>
+        <div class="consumo-card">
+          <h3>📊 Consumo Médio Fiesta 1.6</h3>
+          <div class="consumo-meter">
+            <label><span>🏙️ Cidade (gasolina)</span><span>10,5 km/l</span></label>
+            <div class="meter-bar"><div class="meter-fill" style="width:65%"></div></div>
+          </div>
+          <div class="consumo-meter">
+            <label><span>🛣️ Estrada (gasolina)</span><span>13,8 km/l</span></label>
+            <div class="meter-bar"><div class="meter-fill" style="width:86%"></div></div>
+          </div>
+          <div class="consumo-meter">
+            <label><span>🏙️ Cidade (etanol)</span><span>7,5 km/l</span></label>
+            <div class="meter-bar"><div class="meter-fill" style="width:47%"></div></div>
+          </div>
+          <div class="consumo-meter">
+            <label><span>🛣️ Estrada (etanol)</span><span>9,8 km/l</span></label>
+            <div class="meter-bar"><div class="meter-fill" style="width:61%"></div></div>
+          </div>
+        </div>
+        <div class="consumo-card" style="margin-top:16px;">
+          <h3>⛽ Gasolina ou Etanol?</h3>
+          <div class="fuel-list">
+            <div class="fuel-item"><div class="dot"></div><span><b>Regra de ouro:</b> o etanol vale a pena quando custa menos de 70% do preço da gasolina. Ex: gasolina R$6,00 → etanol deve custar menos de R$4,20.</span></div>
+            <div class="fuel-item"><div class="dot blue"></div><span><b>Gasolina:</b> rende mais km por litro, mas custa mais. Melhor no frio ou quando o etanol está caro.</span></div>
+            <div class="fuel-item"><div class="dot green"></div><span><b>Etanol:</b> mais limpo, produz mais potência, mas tem menor rendimento energético. Melhor quando a relação de preço compensa.</span></div>
+            <div class="fuel-item"><div class="dot red"></div><span><b>Cuidado:</b> abastecer sempre com o mesmo combustível é melhor para as vedações e injetores do seu Fiesta.</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="consumo-card">
+          <h3>🔧 O que afeta o consumo?</h3>
+          <div class="fuel-list" style="gap:14px;">
+            <div class="fuel-item"><div class="dot"></div><span><b>Calibragem dos pneus:</b> pneu murcho aumenta o consumo em até 10%. O Fiesta 2007 usa calibragem de 30 PSI (dianteiro) e 28 PSI (traseiro) com carga normal.</span></div>
+            <div class="fuel-item"><div class="dot blue"></div><span><b>Filtro de ar:</b> filtro sujo reduz a entrada de ar, empobrecendo a mistura e aumentando consumo. Troque a cada 15.000 km.</span></div>
+            <div class="fuel-item"><div class="dot"></div><span><b>Velas de ignição:</b> velas desgastadas produzem faísca fraca, combustão incompleta e mais consumo. Troque a cada 15.000 km.</span></div>
+            <div class="fuel-item"><div class="dot red"></div><span><b>Ar condicionado:</b> liga um compressor movido pelo motor, aumentando consumo entre 15-25% em velocidade baixa.</span></div>
+            <div class="fuel-item"><div class="dot green"></div><span><b>Marcha lenta acelerada:</b> deixar o motor esquentando por mais de 1 minuto é desperdício. O motor moderno aquece mais rápido em movimento suave.</span></div>
+            <div class="fuel-item"><div class="dot blue"></div><span><b>Estilo de direção:</b> aceleradas bruscas e freadas fortes chegam a dobrar o consumo comparado a uma condução suave.</span></div>
+          </div>
+        </div>
 
-  document.getElementById('m-last').textContent = formatDate(p.lastDate);
-  nextEl.textContent = p.nextDate ? `${formatDate(p.nextDate)}${nextDays <= 0 ? ' (vencido!)' : nextDays === 0 ? ' (hoje)' : ''}` : '—';
-  nextEl.className = 'sr-val' + (nextDays !== null && nextDays < 0 ? ' overdue' : nextDays === 0 ? ' today' : '');
+        <!-- CALCULADORA -->
+        <div class="consumo-card" style="margin-top:16px;">
+          <h3>🧮 Calculadora de Abastecimento</h3>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <div>
+                <label style="font-size:0.8rem; color:var(--text3); display:block; margin-bottom:4px;">Preço Gasolina (R$/l)</label>
+                <input id="calcGas" type="number" value="6.20" step="0.1" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:0.9rem;outline:none;" oninput="calcFuel()">
+              </div>
+              <div>
+                <label style="font-size:0.8rem; color:var(--text3); display:block; margin-bottom:4px;">Preço Etanol (R$/l)</label>
+                <input id="calcEth" type="number" value="4.10" step="0.1" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:0.9rem;outline:none;" oninput="calcFuel()">
+              </div>
+            </div>
+            <div id="calcResult" style="background:var(--bg3);border-radius:8px;padding:14px 16px;font-size:0.88rem;color:var(--text2);line-height:1.6;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  const n = p.count;
-  const interval = n > 0 ? getNextInterval(n, p.ef, p.mastered) : null;
-  document.getElementById('m-interval').textContent = interval ? `${interval} dia${interval>1?'s':''}` : '—';
-  document.getElementById('m-ef').textContent = p.ef ? p.ef.toFixed(2) : '—';
-}
+<!-- ELETRONICO -->
+<section id="eletronico" class="bg-alt">
+  <div class="container">
+    <div class="section-label">04 — Sistema Eletrônico</div>
+    <h2 class="section-title">Cérebro Eletrônico<br>do Fiesta</h2>
+    <p class="section-desc">O Fiesta 2007 já tem injeção eletrônica e sensores que monitoram tudo em tempo real. Entenda como funciona o sistema.</p>
 
-function renderHistory(id) {
-  const p = getP(id);
-  const sec = document.getElementById('m-history-section');
-  const list = document.getElementById('m-history');
-  if (!p.history || p.history.length === 0) { sec.style.display = 'none'; return; }
-  sec.style.display = 'block';
-  list.innerHTML = [...p.history].reverse().map(h =>
-    `<div class="history-item"><span>${formatDate(h.date)}</span><span>${h.count}ª tentativa</span></div>`
-  ).join('');
-}
+    <div class="elet-tabs">
+      <button class="elet-tab active" onclick="showEletPanel('ecm')">ECM / PCM</button>
+      <button class="elet-tab" onclick="showEletPanel('sensores')">Sensores</button>
+      <button class="elet-tab" onclick="showEletPanel('ignicao')">Ignição</button>
+      <button class="elet-tab" onclick="showEletPanel('injecao')">Injeção</button>
+      <button class="elet-tab" onclick="showEletPanel('carga')">Carga Elétrica</button>
+    </div>
 
-function changeCount(delta) {
-  if (!currentModal) return;
-  const p = getP(currentModal);
-  p.count = Math.max(0, p.count + delta);
-  document.getElementById('m-count').textContent = p.count;
-  saveState();
-}
+    <div class="elet-panel active" id="panel-ecm">
+      <div class="elet-grid">
+        <div class="elet-card">
+          <h4>🧠 ECM / PCM — O Cérebro</h4>
+          <p>O <b>Engine Control Module</b> (ou PCM — Powertrain Control Module) é o computador do motor. Recebe dados de todos os sensores e controla a quantidade de combustível injetada, o ponto de ignição e muito mais.</p>
+          <p style="margin-top:8px;">Processa mais de <b>1.000 dados por segundo</b> para manter o motor eficiente.</p>
+          <div class="elet-status"><div class="elet-dot"></div>Sistema ativo em todos os veículos pós-2000</div>
+        </div>
+        <div class="elet-card">
+          <h4>⚠️ Luz Check Engine</h4>
+          <p>Quando o ECM detecta um problema, acende a luz de <b>check engine</b> no painel e armazena um <b>código de falha (DTC)</b>. Um scanner OBD2 lê esse código para identificar o problema exato.</p>
+          <p style="margin-top:8px;">Nunca ignore o check engine! Pode indicar desde uma tampa de combustível solta até um catalisador com falha.</p>
+          <div class="elet-status"><div class="elet-dot" style="background:var(--accent)"></div>Scanner OBD2 disponível por R$50-200</div>
+        </div>
+        <div class="elet-card">
+          <h4>💾 Memória de Falhas</h4>
+          <p>O ECM armazena os códigos de falha mesmo após o carro ser desligado. Desconectar a bateria apaga a memória, mas os problemas persistirão e os códigos voltarão.</p>
+          <p style="margin-top:8px;">Um técnico pode apagar os códigos após o reparo, redefinindo o sistema.</p>
+          <div class="elet-status"><div class="elet-dot"></div>Memória preservada por até 30 dias sem bateria</div>
+        </div>
+      </div>
+    </div>
 
-function logAttempt() {
-  if (!currentModal) return;
-  const p = getP(currentModal);
-  p.count++;
+    <div class="elet-panel" id="panel-sensores">
+      <div class="elet-grid">
+        <div class="elet-card">
+          <h4>🌡️ Sensor de Temperatura (ECT)</h4>
+          <p>Mede a temperatura do líquido de arrefecimento. O ECM usa esse dado para enriquecer a mistura no motor frio e proteger o motor de superaquecimento.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> motor marcha mal no frio, consumo aumentado, eventual superaquecimento.</p>
+        </div>
+        <div class="elet-card">
+          <h4>💨 Sensor MAF / MAP</h4>
+          <p>Mede o fluxo ou pressão do ar entrando no motor. Com essa informação, o ECM calcula a quantidade certa de combustível para injetar.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> motor engasga, solavancos, check engine aceso, consumo alto.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🔄 Sensor de Posição do Acelerador (TPS)</h4>
+          <p>Lê o ângulo do borboleta de aceleração (como uma maçaneta que controla o ar). Informa ao ECM quando você está acelerando.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> resposta instável no acelerador, marcha lenta oscilando.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🔃 Sensor de Rotação (CKP)</h4>
+          <p>Instalado no virabrequim, informa ao ECM a velocidade e posição do motor (RPM). É essencial para sincronizar ignição e injeção.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> motor não parte ou para subitamente — é a falha eletrônica que mais deixa o carro na mão.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🧪 Sonda Lambda (O₂)</h4>
+          <p>Monitora o nível de oxigênio nos gases de escape para avaliar se a mistura ar/combustível está correta (rica, pobre ou ideal).</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> consumo aumenta 10-20%, emissões aumentam, pode danificar o catalisador.</p>
+        </div>
+        <div class="elet-card">
+          <h4>💧 Sensor de Detonação (KNK)</h4>
+          <p>Detecta batidas anormais no motor (detonação), que ocorrem com combustível de baixa octanagem. O ECM retarda a ignição para proteger os pistões.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> perda de potência, consumo aumentado e risco de danos ao motor.</p>
+        </div>
+      </div>
+    </div>
 
-  // SM-2 inspired: update EF and next date
-  const quality = p.mastered ? 5 : 3; // quality score
-  const newEF = Math.max(1.3, p.ef + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
-  p.ef = newEF;
-  p.lastDate = todayStr();
+    <div class="elet-panel" id="panel-ignicao">
+      <div class="elet-grid">
+        <div class="elet-card">
+          <h4>⚡ Sistema de Ignição</h4>
+          <p>O sistema gera uma faísca elétrica de alta tensão (até 40.000 volts!) dentro de cada cilindro no momento exato para acender a mistura.</p>
+          <p style="margin-top:8px;">O Fiesta 2007 usa <b>bobinas individuais</b> — uma por cilindro — eliminando o distribuidor dos carros antigos.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🔥 Velas de Ignição</h4>
+          <p>As velas são eletrodos que produzem a faísca. Com o tempo, elas se desgastam e a faísca fica mais fraca, causando falha de ignição.</p>
+          <p style="margin-top:8px;"><b>Troque a cada 15.000 km.</b> Custo baixo (R$80-150 o jogo), mas impacta muito no consumo e desempenho.</p>
+        </div>
+        <div class="elet-card">
+          <h4>⏱️ Ponto de Ignição</h4>
+          <p>O ECM ajusta o "ponto" — o momento exato da faísca — conforme a rotação, carga e temperatura. Um ponto correto maximiza potência e economiza combustível.</p>
+          <p style="margin-top:8px;">No Fiesta, o ponto é totalmente eletrônico — não há regulagem manual.</p>
+        </div>
+      </div>
+    </div>
 
-  const interval = getNextInterval(p.count, p.ef, p.mastered);
-  const next = new Date();
-  next.setDate(next.getDate() + interval);
-  p.nextDate = next.toISOString().split('T')[0];
+    <div class="elet-panel" id="panel-injecao">
+      <div class="elet-grid">
+        <div class="elet-card">
+          <h4>💉 Injetores de Combustível</h4>
+          <p>Bicos eletromagnéticos que pulsam muito rapidamente (dezenas de vezes por segundo) para pulverizar combustível na quantidade exata determinada pelo ECM.</p>
+          <p style="margin-top:8px;"><b>Se entupir:</b> falha de cilindro, vibração no motor, consumo alto. Limpe a cada 30.000 km.</p>
+        </div>
+        <div class="elet-card">
+          <h4>⛽ Bomba de Combustível</h4>
+          <p>Localizada dentro do tanque, envia combustível sob pressão (~3,5 bar) para os injetores. Você ouve ela funcionar por 2 segundos ao girar a chave antes de ligar.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> carro não parte ou perde potência. Evite andar com menos de ¼ do tanque para não superaquecer a bomba.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🌀 Corpo de Borboleta</h4>
+          <p>É a "garganta" do motor — controla quanto ar entra. Nos carros modernos, pode ser eletrônico (drive-by-wire), onde o pedal do acelerador não tem cabo físico.</p>
+          <p style="margin-top:8px;"><b>Se sujar:</b> marcha lenta irregular, motor afoga. Limpeza a cada 30.000 km.</p>
+        </div>
+      </div>
+    </div>
 
-  if (!p.history) p.history = [];
-  p.history.push({ date: p.lastDate, count: p.count });
+    <div class="elet-panel" id="panel-carga">
+      <div class="elet-grid">
+        <div class="elet-card">
+          <h4>🔋 Bateria</h4>
+          <p>Fornece energia para partir o motor e alimentar os sistemas elétricos quando o alternador não consegue sozinho. No Fiesta, a bateria típica é de <b>60 Ah</b>.</p>
+          <p style="margin-top:8px;"><b>Vida útil:</b> 3-5 anos. Sintomas de falha: motor demora para pegar, luzes fracas.</p>
+        </div>
+        <div class="elet-card">
+          <h4>⚙️ Alternador</h4>
+          <p>Movido pela correia do motor, gera eletricidade para recarregar a bateria e alimentar todos os sistemas enquanto o carro está ligado (14 volts).</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> luz de bateria acende, carro para em minutos (bateria esgota). Reparo R$400-800.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🔌 Motor de Partida (Starter)</h4>
+          <p>Motor elétrico que gira o motor de combustão até ele pegar (aquele som "rru-rru-rru" ao girar a chave). Usa muita corrente da bateria por poucos segundos.</p>
+          <p style="margin-top:8px;"><b>Se falhar:</b> "click" seco ao girar a chave ou motor não engata. Custo de reparo R$300-600.</p>
+        </div>
+        <div class="elet-card">
+          <h4>🛡️ Fusíveis e Relês</h4>
+          <p>Fusíveis protegem cada circuito elétrico de sobrecarga. Relês são interruptores elétricos acionados por sinal fraco. A caixa de fusíveis fica no motor e dentro do carro.</p>
+          <p style="margin-top:8px;"><b>Se queimar:</b> o sistema protegido para de funcionar (bombas, luzes, injetores). Fusível custa centavos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  document.getElementById('m-count').textContent = p.count;
-  updateSRInfo(currentModal);
-  renderHistory(currentModal);
-  saveState();
-  updateStats();
-  renderAll();
+<!-- MANUTENCAO -->
+<section id="manutencao">
+  <div class="container">
+    <div class="section-label">05 — Manutenção Preventiva</div>
+    <h2 class="section-title">Quando Trocar<br>o Quê?</h2>
+    <p class="section-desc">Manutenção preventiva é muito mais barata que corretiva. Siga essa linha do tempo para manter seu Fiesta saudável.</p>
 
-  showToast(`✓ Tentativa #${p.count} registrada! Próxima revisão em ${interval} dia${interval>1?'s':''}`, 'success');
-}
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <div class="manut-timeline">
+        <div class="manut-item">
+          <div class="manut-km">A cada 5.000 km ou 6 meses</div>
+          <h4>Troca de Óleo e Filtro</h4>
+          <p>O óleo lubrifica e resfria as partes internas. Com o tempo, ele degrada e acumula impurezas. Use óleo <b>5W30 semissintético</b> — capacidade de 3,5 litros.</p>
+          <div class="manut-chips"><span class="chip">Óleo 5W30</span><span class="chip">Filtro de óleo</span><span class="chip">~R$120-180</span></div>
+        </div>
 
-function setMastery(val) {
-  if (!currentModal) return;
-  const p = getP(currentModal);
-  p.mastered = (val === 'mastered');
+        <div class="manut-item">
+          <div class="manut-km">A cada 10.000 km</div>
+          <h4>Revisão Geral dos Fluidos</h4>
+          <p>Verificar e completar: líquido de arrefecimento, fluido de freio, fluido da direção, água do limpador. Inspecionar pastilhas de freio e pneus.</p>
+          <div class="manut-chips"><span class="chip">Fluido de freio DOT4</span><span class="chip">Arrefecimento</span></div>
+        </div>
 
-  // Recalculate next date with new mastery
-  if (p.lastDate && p.count > 0) {
-    const interval = getNextInterval(p.count, p.ef, p.mastered);
-    const next = new Date();
-    next.setDate(next.getDate() + interval);
-    p.nextDate = next.toISOString().split('T')[0];
+        <div class="manut-item">
+          <div class="manut-km">A cada 15.000 km</div>
+          <h4>Velas + Filtros</h4>
+          <p>Troca das <b>4 velas de ignição</b>, filtro de ar do motor e filtro de combustível. Impacto direto em consumo e desempenho.</p>
+          <div class="manut-chips"><span class="chip">4 velas NGK BKR5E</span><span class="chip">Filtro de ar</span><span class="chip">~R$200-300</span></div>
+        </div>
+
+        <div class="manut-item">
+          <div class="manut-km">A cada 30.000 km</div>
+          <h4>Sistema de Injeção</h4>
+          <p>Limpeza dos injetores e corpo de borboleta. Troca do filtro de ar da cabine (se houver). Alinhamento, balanceamento e rodízio dos pneus.</p>
+          <div class="manut-chips"><span class="chip">Limpeza injetores</span><span class="chip">Borboleta</span><span class="chip">~R$300-500</span></div>
+        </div>
+      </div>
+
+      <div class="manut-timeline">
+        <div class="manut-item">
+          <div class="manut-km">A cada 40.000 km</div>
+          <h4>Fluido de Freio + Pastilhas</h4>
+          <p>O fluido de freio absorve umidade ao longo do tempo, reduzindo o ponto de ebulição e a eficiência. Troca completa obrigatória.</p>
+          <div class="manut-chips"><span class="chip">DOT4</span><span class="chip">Pastilhas dianteiras</span><span class="chip">~R$200-400</span></div>
+        </div>
+
+        <div class="manut-item">
+          <div class="manut-km">A cada 60.000 km ⚠️</div>
+          <h4>Correia Dentada — CRÍTICO</h4>
+          <p>A peça mais importante da manutenção preventiva. A correia não avisam quando vai romper. Se romper, o motor é destruído instantaneamente. <b>Não adie!</b></p>
+          <div class="manut-chips"><span class="chip">Correia + tensor</span><span class="chip">Bomba d'água</span><span class="chip">~R$600-1.200</span></div>
+        </div>
+
+        <div class="manut-item">
+          <div class="manut-km">A cada 40.000 km</div>
+          <h4>Velas de Ignição (Revisão)</h4>
+          <p>Mesmo que as velas pareçam bem, o eletrodo central erode gradualmente. Troca preventiva garante ignição eficiente e consumo ideal.</p>
+          <div class="manut-chips"><span class="chip">Velas iridium (maior duração)</span></div>
+        </div>
+
+        <div class="manut-item">
+          <div class="manut-km">A cada 3-5 anos</div>
+          <h4>Bateria</h4>
+          <p>Baterias têm vida útil definida. Mesmo funcionando, uma bateria velha pode deixar o carro na mão em dias frios ou após longos períodos parado.</p>
+          <div class="manut-chips"><span class="chip">60 Ah</span><span class="chip">~R$350-500</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNOSTICO -->
+<section id="diagnostico" class="bg-alt">
+  <div class="container">
+    <div class="section-label">06 — Diagnóstico de Falhas</div>
+    <h2 class="section-title">Algo Errado?<br>Identifique o Problema</h2>
+    <p class="section-desc">Busque por sintomas, sons ou sinais visuais para entender o que pode estar acontecendo com seu Fiesta.</p>
+
+    <div class="diag-intro">
+      <div class="diag-search-wrap">
+        <h3>🔍 Buscar Sintoma ou Código</h3>
+        <div class="search-box">
+          <input type="text" id="diagInput" placeholder="Ex: fumaça branca, batida, não parte..." oninput="searchDiag(this.value)">
+          <button class="btn btn-primary" onclick="searchDiag(document.getElementById('diagInput').value)">Buscar</button>
+        </div>
+        <div id="diagResults"></div>
+      </div>
+
+      <div class="diag-symptom-list">
+        <h3>⚡ Sintomas Comuns</h3>
+        <button class="symptom-btn" onclick="runSymptom('fumaça branca')">💨 Fumaça branca pelo escapamento</button>
+        <button class="symptom-btn" onclick="runSymptom('batida no motor')">🔨 Batida seca no motor</button>
+        <button class="symptom-btn" onclick="runSymptom('não parte')">🔑 Carro não parte</button>
+        <button class="symptom-btn" onclick="runSymptom('superaquecimento')">🌡️ Motor superaquecendo</button>
+        <button class="symptom-btn" onclick="runSymptom('consumo alto')">⛽ Consumo muito alto</button>
+        <button class="symptom-btn" onclick="runSymptom('marcha lenta')">🔄 Marcha lenta irregular</button>
+        <button class="symptom-btn" onclick="runSymptom('freio mole')">🛑 Freio mole ou fundo</button>
+        <button class="symptom-btn" onclick="runSymptom('luz check engine')">⚠️ Luz check engine acesa</button>
+        <button class="symptom-btn" onclick="runSymptom('vibração')">📳 Vibração no volante</button>
+        <button class="symptom-btn" onclick="runSymptom('fumaça azul')">🔵 Fumaça azul/cinza</button>
+      </div>
+    </div>
+
+    <!-- TABELA DE CODIGOS OBD -->
+    <div class="consumo-card">
+      <h3 style="font-family:'Oswald',sans-serif; font-size:1rem; font-weight:600; color:var(--white); margin-bottom:16px; letter-spacing:0.5px;">📟 Códigos OBD2 Comuns no Fiesta 1.6</h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left; padding:10px 12px; color:var(--text3); font-family:'Oswald',sans-serif; font-weight:400; letter-spacing:1px; font-size:0.78rem; text-transform:uppercase;">Código</th>
+              <th style="text-align:left; padding:10px 12px; color:var(--text3); font-family:'Oswald',sans-serif; font-weight:400; letter-spacing:1px; font-size:0.78rem; text-transform:uppercase;">Descrição</th>
+              <th style="text-align:left; padding:10px 12px; color:var(--text3); font-family:'Oswald',sans-serif; font-weight:400; letter-spacing:1px; font-size:0.78rem; text-transform:uppercase;">Causa Comum</th>
+              <th style="text-align:left; padding:10px 12px; color:var(--text3); font-family:'Oswald',sans-serif; font-weight:400; letter-spacing:1px; font-size:0.78rem; text-transform:uppercase;">Severidade</th>
+            </tr>
+          </thead>
+          <tbody id="obdTable">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-label">07 — Quiz</div>
+    <h2 class="section-title">Teste Seus<br>Conhecimentos</h2>
+    <p class="section-desc">Veja se você aprendeu como funciona o seu Fiesta. 10 perguntas sobre mecânica e eletrônica.</p>
+
+    <div class="quiz-wrap">
+      <div class="quiz-progress" id="quizProgress">Pergunta 1 de 10</div>
+      <div class="quiz-score-bar"><div class="quiz-score-fill" id="quizBar" style="width:0%"></div></div>
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-options" id="quizOpts"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="btn btn-primary" id="quizNext" style="display:none" onclick="nextQuiz()">Próxima →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Ford Fiesta 1.6 2007 — Guia Mecânico Completo</strong></p>
+  <p style="margin-top:8px;">Conteúdo educacional para proprietários. Sempre consulte um mecânico de confiança para reparos.</p>
+</footer>
+
+<script>
+
+// === MENU MOBILE RESPONSIVO ===
+function toggleMobileMenu() {
+  const isOpen = document.body.classList.toggle('menu-open');
+  const btn = document.querySelector('.menu-toggle');
+  if (btn) {
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    btn.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
   }
-
-  updateMasteryUI(p.mastered);
-  updateSRInfo(currentModal);
-  saveState();
-  updateStats();
-  renderAll();
-
-  const msg = p.mastered ? '⚡ Marcado como dominado!' : '📚 Voltou para aprendendo';
-  showToast(msg, p.mastered ? 'success' : 'info');
 }
 
-// ── TOAST ──
-function showToast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ── KEYBOARD ──
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.body.classList.remove('menu-open');
+    const btn = document.querySelector('.menu-toggle');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
 });
 
-// ── INIT ──
-loadState();
-updateStats();
-renderAll();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 860) {
+    document.body.classList.remove('menu-open');
+    const btn = document.querySelector('.menu-toggle');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Abrir menu');
+    }
+  }
+});
+
+// === PARTS ACCORDION ===
+function togglePart(id) {
+  document.querySelectorAll('.part-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('part-' + id);
+  if (el) el.classList.add('active');
+}
+
+// === ANIMATION ENGINE ===
+const canvas = document.getElementById('engineCanvas');
+const ctx = canvas.getContext('2d');
+let animRunning = false;
+let animFrame = 0;
+let animSpeed = 1;
+let animId;
+
+const pistonPhases = [0, Math.PI, Math.PI/2, 3*Math.PI/2];
+const cycleNames = ['Admissão', 'Compressão', 'Combustão (Potência)', 'Escape'];
+const cycleColors = ['#0057d9','#8892a4','#e84b4b','#4be8a0'];
+
+function drawEngine(t) {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const BG = '#0d0f14';
+  const BLOCK = '#1e2330';
+  const STROKE = '#2a2f3e';
+  const PISTON = '#e8b84b';
+  const CRANK_C = 'rgba(0,87,217,0.6)';
+
+  // BG
+  ctx.fillStyle = BG;
+  ctx.fillRect(0, 0, W, H);
+
+  const cylW = 54, cylH = 130;
+  const cylGap = 8;
+  const totalW = 4 * cylW + 3 * cylGap;
+  const startX = (W - totalW) / 2;
+  const startY = 30;
+  const crankY = startY + cylH + 60;
+
+  // CRANKSHAFT
+  const crankR = 36;
+  const crankCX = startX + totalW / 2;
+  ctx.beginPath();
+  ctx.arc(crankCX, crankY, crankR, 0, Math.PI * 2);
+  ctx.fillStyle = '#252b3a';
+  ctx.fill();
+  ctx.strokeStyle = STROKE;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Crankpin
+  const crankAngle = t * 2;
+  const cpX = crankCX + Math.cos(crankAngle) * crankR * 0.6;
+  const cpY = crankY + Math.sin(crankAngle) * crankR * 0.6;
+  ctx.beginPath();
+  ctx.arc(cpX, cpY, 6, 0, Math.PI * 2);
+  ctx.fillStyle = PISTON;
+  ctx.fill();
+
+  // CYLINDERS + PISTONS
+  for (let i = 0; i < 4; i++) {
+    const cx = startX + i * (cylW + cylGap);
+    const phase = pistonPhases[i];
+    const pos = Math.sin(t + phase); // -1 to 1
+    const pistonY = startY + 20 + ((pos + 1) / 2) * (cylH - 40);
+
+    // Cylinder block
+    ctx.fillStyle = BLOCK;
+    ctx.strokeStyle = STROKE;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(cx, startY, cylW, cylH, 4);
+    ctx.fill();
+    ctx.stroke();
+
+    // Determine cycle phase
+    const angle = ((t + phase) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+    let cycleIdx;
+    if (angle < Math.PI / 2) cycleIdx = 0;
+    else if (angle < Math.PI) cycleIdx = 1;
+    else if (angle < 3 * Math.PI / 2) cycleIdx = 2;
+    else cycleIdx = 3;
+
+    // Gas fill
+    const gasColors = [
+      'rgba(0,87,217,0.1)',
+      'rgba(136,146,164,0.1)',
+      'rgba(232,75,75,0.18)',
+      'rgba(75,232,160,0.08)'
+    ];
+    ctx.fillStyle = gasColors[cycleIdx];
+    ctx.fillRect(cx + 2, startY + 2, cylW - 4, pistonY - startY - 2);
+
+    // Piston
+    ctx.fillStyle = PISTON;
+    ctx.strokeStyle = '#c9a038';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(cx + 6, pistonY, cylW - 12, 18, 3);
+    ctx.fill();
+    ctx.stroke();
+
+    // Piston rings
+    ctx.strokeStyle = '#c9a038';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx + 6, pistonY + 5);
+    ctx.lineTo(cx + cylW - 6, pistonY + 5);
+    ctx.stroke();
+
+    // Connecting rod
+    const rodBotX = crankCX - totalW / 2 + i * (cylW + cylGap) + cylW / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + cylW / 2, pistonY + 18);
+    ctx.lineTo(cpX, cpY);
+    ctx.strokeStyle = '#3a4050';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Valve indicators (top)
+    const vColor = cycleIdx === 0 ? '#0057d9' : (cycleIdx === 3 ? '#4be8a0' : '#2a2f3e');
+    ctx.fillStyle = vColor;
+    ctx.beginPath();
+    ctx.arc(cx + 14, startY + 5, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    const vColor2 = cycleIdx === 3 ? '#e84b4b' : '#2a2f3e';
+    ctx.fillStyle = vColor2;
+    ctx.beginPath();
+    ctx.arc(cx + cylW - 14, startY + 5, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Spark plug (combustão)
+    if (cycleIdx === 2 && angle > 3 * Math.PI / 2 - 0.3 && angle < 3 * Math.PI / 2 + 0.3) {
+      ctx.strokeStyle = '#fff59d';
+      ctx.lineWidth = 1.5;
+      const sx = cx + cylW / 2, sy = startY + 8;
+      for (let j = 0; j < 4; j++) {
+        const a = (j / 4) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + Math.cos(a) * 8, sy + Math.sin(a) * 8);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Labels
+  ctx.font = '11px Oswald, sans-serif';
+  ctx.fillStyle = '#5a6275';
+  ctx.textAlign = 'center';
+  for (let i = 0; i < 4; i++) {
+    const cx = startX + i * (cylW + cylGap) + cylW / 2;
+    ctx.fillText('CIL. ' + (i + 1), cx, H - 12);
+  }
+
+  // Current cycle label
+  const mainAngle = ((t) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+  let mainCycle;
+  if (mainAngle < Math.PI / 2) mainCycle = 0;
+  else if (mainAngle < Math.PI) mainCycle = 1;
+  else if (mainAngle < 3 * Math.PI / 2) mainCycle = 2;
+  else mainCycle = 3;
+  document.getElementById('cycleLabel').textContent = '● Cilindro 1: ' + cycleNames[mainCycle];
+  document.getElementById('cycleLabel').style.color = cycleColors[mainCycle];
+}
+
+function animLoop() {
+  if (!animRunning) return;
+  animFrame += 0.03 * animSpeed;
+  drawEngine(animFrame);
+  animId = requestAnimationFrame(animLoop);
+}
+
+function toggleAnim() {
+  animRunning = !animRunning;
+  document.getElementById('btnPlay').textContent = animRunning ? '⏸ Pausar' : '▶ Iniciar';
+  if (animRunning) animLoop();
+  else cancelAnimationFrame(animId);
+}
+
+function setAnimSpeed(s) {
+  animSpeed = s;
+  if (!animRunning) { animRunning = true; document.getElementById('btnPlay').textContent = '⏸ Pausar'; animLoop(); }
+}
+
+// Draw initial frame
+drawEngine(0);
+
+// === ELET TABS ===
+function showEletPanel(id) {
+  document.querySelectorAll('.elet-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.elet-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// === CALC FUEL ===
+function calcFuel() {
+  const gas = parseFloat(document.getElementById('calcGas').value) || 0;
+  const eth = parseFloat(document.getElementById('calcEth').value) || 0;
+  const ratio = eth / gas;
+  const pct = (ratio * 100).toFixed(1);
+  let rec, color;
+  if (ratio <= 0.7) {
+    rec = `✅ <b>Vale usar etanol!</b> O etanol está a ${pct}% do preço da gasolina, abaixo do limite de 70%. Você economizará dinheiro usando etanol.`;
+    color = 'var(--green)';
+  } else {
+    rec = `⛽ <b>Use gasolina.</b> O etanol está a ${pct}% do preço da gasolina, acima do limite de 70%. A gasolina é mais vantajosa neste momento.`;
+    color = 'var(--accent)';
+  }
+  const el = document.getElementById('calcResult');
+  el.innerHTML = rec;
+  el.style.color = color;
+}
+calcFuel();
+
+// === DIAGNOSTIC ===
+const diagData = [
+  { k: ['fumaça branca', 'vapor branco', 'escapamento branco'], title: 'Fumaça Branca pelo Escapamento', text: 'A causa mais comum é a junta do cabeçote queimada, que permite que o líquido de arrefecimento entre na câmara de combustão e seja queimado. Pode também ser condensação normal no frio (desaparece após 2 min). Verifique o nível do reservatório de arrefecimento — se baixou sem vazamento visível, é junta do cabeçote.', sev: 'alta' },
+  { k: ['fumaça azul', 'fumaça cinza', 'cheiro de óleo'], title: 'Fumaça Azul/Cinza — Queima de Óleo', text: 'O motor está queimando óleo. Causas: anéis de pistão desgastados (fumaça ao acelerar), retentores de válvula danificados (fumaça ao desacelerar). Verifique o nível de óleo frequentemente. Reparo envolve desmontagem parcial do motor.', sev: 'media' },
+  { k: ['batida', 'batida no motor', 'bate biela', 'barulho motor'], title: 'Batida no Motor', text: 'Batida grave e rítmica (metallic knock) pode ser detonação (combustível ruim — use combustível de boa qualidade), "bate biela" (mancal de biela desgastado, falta de óleo) ou pistão solto. Desligue imediatamente e não ligue até diagnóstico. Batida suave pode ser correntes ou válvulas.', sev: 'alta' },
+  { k: ['não parte', 'nao parte', 'não liga', 'nao liga', 'carro não pega'], title: 'Carro Não Parte / Não Liga', text: 'Verifique: (1) Bateria — teste com luzes do painel, se fracas é bateria. (2) Motor de partida — se faz "click" único, é contato ou bateria fraca. Se sem som, cheque fusíveis. (3) Combustível — tanque vazio? Bomba falhando? (4) Sensor CKP — se o motor "roda" mas não pega, pode ser sensor de rotação.', sev: 'media' },
+  { k: ['superaquecimento', 'temperatura alta', 'motor quente', 'marcador subindo'], title: 'Motor Superaquecendo', text: 'DESLIGUE o motor imediatamente ao ver temperatura alta! Causas: nível baixo do líquido de arrefecimento (verifique vazamentos), ventoinha de arrefecimento parada, termostato travado fechado, bomba d\'água falhando, junta do cabeçote queimada. Nunca abra o radiador com o motor quente — pressão escaldante.', sev: 'alta' },
+  { k: ['consumo alto', 'gasta muito', 'rendimento baixo'], title: 'Alto Consumo de Combustível', text: 'Causas mais comuns: velas desgastadas, filtro de ar sujo, pneus deiscalibrados, sonda lambda com defeito (enriquece a mistura), injetores sujos, TPS mal calibrado, ar condicionado em uso constante, ou simplesmente estilo de direção agressivo.', sev: 'baixa' },
+  { k: ['marcha lenta', 'rotacao instavel', 'roda irregular', 'motor treme parado'], title: 'Marcha Lenta Irregular / Instável', text: 'Causas: corpo de borboleta sujo (causa mais comum), sensor MAF/MAP com defeito, vela falhando em um cilindro, injetor entupido ou vazando, escape de ar no coletor de admissão. Limpeza do corpo de borboleta resolve 60% dos casos.', sev: 'baixa' },
+  { k: ['freio mole', 'freio fundo', 'pedal fundo', 'freio esponjoso'], title: 'Freio Mole / Pedal indo ao Fundo', text: 'URGENTE — não dirija com freio mole! Causas: fluido de freio com ar (sangrar o sistema), pastilhas completamente gastas, cilindro mestre falhando, vazamento na linha de freio. Verifique o nível do fluido de freio — se baixou, há vazamento.', sev: 'alta' },
+  { k: ['check engine', 'luz amarela', 'warning light', 'luz no painel'], title: 'Luz Check Engine Acesa', text: 'O ECM detectou uma falha e armazenou um código DTC. Pode ser algo simples (tampa do combustível mal fechada) ou sério (sensor lambda, catalisador, bobina). Use um scanner OBD2 (vendido por R$50-200) para ler o código e identificar o problema exato. Não ignore!', sev: 'media' },
+  { k: ['vibração', 'vibra volante', 'vibra em alta'], title: 'Vibração no Volante', text: 'Em velocidade específica: problema de balanceamento dos pneus (resolve com balanceamento). Em todas as velocidades: disco de roda torto, pneu danificado internamente. Vibração ao frear: discos de freio empenados. Vibração constante: junta homocinética com folga.', sev: 'media' },
+];
+
+function searchDiag(q) {
+  const res = document.getElementById('diagResults');
+  res.innerHTML = '';
+  if (!q.trim()) return;
+  const ql = q.toLowerCase();
+  const found = diagData.filter(d => d.k.some(k => ql.includes(k) || k.includes(ql)));
+  if (!found.length) {
+    res.innerHTML = '<div class="diag-item"><div class="diag-text" style="color:var(--text3)">Nenhum resultado encontrado. Tente palavras como: fumaça, batida, não parte, superaquecimento...</div></div>';
+    return;
+  }
+  found.forEach(d => {
+    const div = document.createElement('div');
+    div.className = 'diag-item';
+    div.innerHTML = `<div class="diag-title">${d.title}</div><div class="diag-text">${d.text}</div><span class="diag-severity sev-${d.sev}">${d.sev.toUpperCase()} SEVERIDADE</span>`;
+    res.appendChild(div);
+  });
+}
+
+function runSymptom(s) {
+  document.getElementById('diagInput').value = s;
+  searchDiag(s);
+  document.getElementById('diagInput').focus();
+}
+
+// OBD TABLE
+const obdCodes = [
+  { code: 'P0300', desc: 'Falha de Ignição Randômica', cause: 'Vela, bobina, injetor ou vazamento de compressão', sev: 'media' },
+  { code: 'P0301–P0304', desc: 'Falha no Cilindro 1–4', cause: 'Vela desgastada, bobina defeituosa ou injetor entupido', sev: 'media' },
+  { code: 'P0171', desc: 'Mistura Pobre (Banco 1)', cause: 'Vazamento de ar, sonda lambda, MAF sujo', sev: 'media' },
+  { code: 'P0172', desc: 'Mistura Rica (Banco 1)', cause: 'Injetor vazando, pressão de combustível alta', sev: 'media' },
+  { code: 'P0113', desc: 'Sensor IAT — Temperatura do Ar Alta', cause: 'Sensor de temperatura do ar defeituoso', sev: 'baixa' },
+  { code: 'P0340', desc: 'Falha Sensor Árv. de Cames (CMP)', cause: 'Sensor CMP defeituoso ou fiação danificada', sev: 'alta' },
+  { code: 'P0335', desc: 'Falha Sensor Virabrequim (CKP)', cause: 'Sensor CKP defeituoso — carro pode parar andando', sev: 'alta' },
+  { code: 'P0420', desc: 'Eficiência do Catalisador Baixa', cause: 'Catalisador desgastado, sonda pós-catalisador', sev: 'media' },
+  { code: 'P0505', desc: 'Sistema de Marcha Lenta', cause: 'IAC (válvula de marcha lenta) defeituoso ou sujo', sev: 'baixa' },
+  { code: 'P0562', desc: 'Tensão do Sistema Elétrico Baixa', cause: 'Bateria fraca, alternador falhando', sev: 'alta' },
+];
+
+const tbody = document.getElementById('obdTable');
+obdCodes.forEach(o => {
+  const tr = document.createElement('tr');
+  tr.style.borderBottom = '1px solid var(--border)';
+  tr.innerHTML = `
+    <td style="padding:10px 12px; font-family:'Oswald',sans-serif; color:var(--accent); font-size:0.85rem;">${o.code}</td>
+    <td style="padding:10px 12px; color:var(--text); font-size:0.85rem;">${o.desc}</td>
+    <td style="padding:10px 12px; color:var(--text2); font-size:0.82rem;">${o.cause}</td>
+    <td style="padding:10px 12px;"><span class="diag-severity sev-${o.sev}">${o.sev.toUpperCase()}</span></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// === QUIZ ===
+const quizData = [
+  { q: 'O motor Sigma 1.6 do Fiesta 2007 possui quantos cilindros?', opts: ['2 cilindros', '4 cilindros', '6 cilindros', '8 cilindros'], ans: 1, exp: 'O Sigma 1.6 é um motor 4 cilindros em linha (I4), com 8 válvulas (2 por cilindro — admissão e escape).' },
+  { q: 'No ciclo de 4 tempos, qual é a ordem correta dos tempos?', opts: ['Compressão → Admissão → Combustão → Escape', 'Admissão → Compressão → Combustão → Escape', 'Combustão → Admissão → Escape → Compressão', 'Escape → Admissão → Combustão → Compressão'], ans: 1, exp: 'O ciclo Otto (4 tempos) sempre segue: 1. Admissão (entra mistura), 2. Compressão (mistura comprimida), 3. Combustão/Potência (explosão empurra pistão), 4. Escape (gases saem).' },
+  { q: 'A correia dentada deve ser trocada a cada quantos km no Fiesta 1.6?', opts: ['30.000 km', '45.000 km', '60.000 km', '100.000 km'], ans: 2, exp: 'A correia dentada do motor Sigma 1.6 deve ser substituída a cada 60.000 km. Se romper, os pistões colidem com as válvulas, destruindo o motor — custo de R$2.000 a R$5.000.' },
+  { q: 'O que é o ECM/PCM no carro?', opts: ['Um tipo de filtro de óleo eletrônico', 'O computador que controla o motor', 'O sistema de freios ABS', 'O relê do ar condicionado'], ans: 1, exp: 'O ECM (Engine Control Module) ou PCM é o computador central do motor. Ele recebe dados de todos os sensores e controla injeção de combustível, ponto de ignição e muitas outras funções.' },
+  { q: 'Qual sensor é mais crítico — se falhar, pode deixar o carro parado na rua?', opts: ['Sensor de temperatura (ECT)', 'Sonda lambda (O₂)', 'Sensor de posição do virabrequim (CKP)', 'Sensor do acelerador (TPS)'], ans: 2, exp: 'O sensor CKP (Crankshaft Position Sensor) informa ao ECM a posição e rotação do virabrequim. Sem esse dado, o ECM não consegue controlar ignição nem injeção — o motor para imediatamente.' },
+  { q: 'Fumaça branca saindo pelo escapamento (que não desaparece após aquecer) indica:', opts: ['Motor queimando óleo lubrificante', 'Problema elétrico nas velas', 'Junta do cabeçote queimada com refrigerante entrando', 'Filtro de ar sujo'], ans: 2, exp: 'Fumaça branca persistente indica refrigerante (líquido de arrefecimento) entrando na câmara de combustão — geralmente por junta do cabeçote danificada. Fumaça azul indica queima de óleo.' },
+  { q: 'Para saber se o etanol compensa em relação à gasolina, a regra é:', opts: ['Etanol deve custar menos de 50% da gasolina', 'Etanol deve custar menos de 70% da gasolina', 'Etanol deve custar menos de 80% da gasolina', 'Não há diferença de rendimento entre os dois'], ans: 1, exp: 'O etanol tem cerca de 70% da energia da gasolina por litro. Portanto, se o etanol custar menos de 70% do preço da gasolina, ele é mais vantajoso em custo por km.' },
+  { q: 'Qual é o tipo de óleo recomendado para o motor Sigma 1.6?', opts: ['20W50 mineral', '5W30 semissintético', '10W40 sintético puro', 'Qualquer óleo de qualidade'], ans: 1, exp: 'O motor Sigma 1.6 do Fiesta 2007 usa óleo 5W30 semissintético. A capacidade do cárter é de 3,5 litros. Troca a cada 5.000 km ou 6 meses.' },
+  { q: 'O alternador serve para:', opts: ['Partir o motor ao girar a chave', 'Controlar a pressão dos pneus', 'Gerar energia elétrica enquanto o carro anda, recarregando a bateria', 'Regular a temperatura do motor'], ans: 2, exp: 'O alternador é um gerador acionado pela correia do motor. Produz ~14 volts para recarregar a bateria e alimentar todos os sistemas elétricos enquanto o carro está em funcionamento.' },
+  { q: 'O que a luz "Check Engine" no painel indica?', opts: ['Hora de trocar o óleo — é apenas um lembrete', 'O ECM detectou uma falha e armazenou um código de diagnóstico', 'A bateria está descarregada', 'O nível de combustível está baixo'], ans: 1, exp: 'O check engine (ícone de motor) indica que o ECM detectou uma falha em algum sistema e armazenou um código DTC. Para ler o código, use um scanner OBD2. Nunca ignore essa luz!' },
+];
+
+let quizCurrent = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function renderQuiz() {
+  const d = quizData[quizCurrent];
+  document.getElementById('quizProgress').textContent = `Pergunta ${quizCurrent + 1} de ${quizData.length}`;
+  document.getElementById('quizBar').style.width = ((quizCurrent / quizData.length) * 100) + '%';
+  document.getElementById('quizQ').textContent = d.q;
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('quizFeedback').innerHTML = '';
+  document.getElementById('quizNext').style.display = 'none';
+  quizAnswered = false;
+
+  const opts = document.getElementById('quizOpts');
+  opts.innerHTML = '';
+  d.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(idx, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const d = quizData[quizCurrent];
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('quizFeedback');
+  if (idx === d.ans) {
+    quizScore++;
+    btn.classList.add('correct');
+    fb.className = 'quiz-feedback show ok';
+    fb.innerHTML = '✅ <b>Correto!</b> ' + d.exp;
+  } else {
+    btn.classList.add('wrong');
+    btns[d.ans].classList.add('correct');
+    fb.className = 'quiz-feedback show fail';
+    fb.innerHTML = '❌ <b>Não era essa.</b> ' + d.exp;
+  }
+  document.getElementById('quizNext').style.display = 'inline-block';
+}
+
+function nextQuiz() {
+  quizCurrent++;
+  if (quizCurrent >= quizData.length) {
+    showQuizResult();
+  } else {
+    renderQuiz();
+  }
+}
+
+function showQuizResult() {
+  const pct = Math.round((quizScore / quizData.length) * 100);
+  let msg, color;
+  if (pct >= 80) { msg = '🏆 Excelente! Você conhece bem o seu Fiesta!'; color = 'var(--green)'; }
+  else if (pct >= 60) { msg = '👍 Bom trabalho! Continue estudando para dominar tudo.'; color = 'var(--accent)'; }
+  else { msg = '📚 Revise o guia e tente novamente — você vai melhorar!'; color = 'var(--ford-blue2)'; }
+
+  document.getElementById('quizProgress').textContent = 'Quiz Concluído!';
+  document.getElementById('quizBar').style.width = '100%';
+  document.getElementById('quizQ').textContent = '';
+  document.getElementById('quizOpts').innerHTML = `
+    <div style="text-align:center; padding:24px 0;">
+      <div style="font-family:'Oswald',sans-serif; font-size:3rem; color:${color}; font-weight:700;">${pct}%</div>
+      <div style="font-size:1rem; color:var(--text2); margin:12px 0;">${quizScore} de ${quizData.length} corretas</div>
+      <div style="font-size:1rem; color:${color}; margin-bottom:24px;">${msg}</div>
+      <button class="btn btn-primary" onclick="quizCurrent=0;quizScore=0;renderQuiz()">🔄 Tentar Novamente</button>
+    </div>
+  `;
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('quizNext').style.display = 'none';
+}
+
+renderQuiz();
 </script>
 </body>
 </html>
