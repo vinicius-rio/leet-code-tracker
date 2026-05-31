@@ -1478,6 +1478,86 @@
     .garage-topbar { flex-direction: column; align-items: stretch; }
   }
 
+
+
+  /* MODAL DE EDIÇÃO DA GARAGEM */
+  .garage-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(5, 7, 12, 0.76);
+    backdrop-filter: blur(10px);
+  }
+
+  .garage-modal-backdrop.show { display: flex; }
+
+  .garage-modal {
+    width: min(560px, 100%);
+    max-height: min(92vh, 760px);
+    overflow-y: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    padding: 28px;
+  }
+
+  .garage-modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .garage-modal h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin: 0 0 6px;
+  }
+
+  .garage-modal p {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .garage-modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .garage-modal-close:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .garage-edit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .garage-edit-grid .full { grid-column: 1 / -1; }
+
+  @media(max-width: 560px) {
+    .garage-modal { padding: 22px; }
+    .garage-edit-grid { grid-template-columns: 1fr; }
+    .garage-edit-grid .full { grid-column: auto; }
+  }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -2123,6 +2203,49 @@
         </div>
       </div>
       </div>
+
+      <div class="garage-modal-backdrop" id="garageEditModal" aria-hidden="true">
+        <div class="garage-modal" role="dialog" aria-modal="true" aria-labelledby="garageEditTitle">
+          <div class="garage-modal-head">
+            <div>
+              <h3 id="garageEditTitle">✏️ Editar manutenção</h3>
+              <p>Atualize o nome, a última troca e os intervalos. A próxima revisão será recalculada automaticamente.</p>
+            </div>
+            <button class="garage-modal-close" type="button" onclick="closeGarageEditModal()" aria-label="Fechar">×</button>
+          </div>
+
+          <form class="garage-form" onsubmit="saveGarageEdit(event)">
+            <input type="hidden" id="garageEditId">
+            <div class="garage-edit-grid">
+              <div class="garage-field full">
+                <label for="garageEditName">Nome da manutenção</label>
+                <input id="garageEditName" type="text" placeholder="Ex: Óleo do motor + filtro" required>
+              </div>
+              <div class="garage-field">
+                <label for="garageEditLastKm">Km da última troca</label>
+                <input id="garageEditLastKm" type="number" min="0" step="1" placeholder="Ex: 145000" required>
+              </div>
+              <div class="garage-field">
+                <label for="garageEditLastDate">Data da última troca</label>
+                <input id="garageEditLastDate" type="date" required>
+              </div>
+              <div class="garage-field">
+                <label for="garageEditIntervalKm">Intervalo por km</label>
+                <input id="garageEditIntervalKm" type="number" min="0" step="100" placeholder="Ex: 5000">
+              </div>
+              <div class="garage-field">
+                <label for="garageEditIntervalMonths">Intervalo por meses</label>
+                <input id="garageEditIntervalMonths" type="number" min="0" step="1" placeholder="Ex: 6">
+              </div>
+            </div>
+            <div class="garage-actions" style="margin-top:18px;">
+              <button class="btn btn-primary" type="submit">Salvar edição</button>
+              <button class="btn btn-accent" type="button" onclick="closeGarageEditModal()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -2529,8 +2652,8 @@ obdCodes.forEach(o => {
 // 2) Execute o arquivo SQL gerado: supabase_garagem_schema.sql.
 // 3) Cole abaixo a Project URL e a anon public key do Supabase.
 // IMPORTANTE: nunca coloque a service_role key no front-end.
-const SUPABASE_URL = 'https://rojjlqeuspcfehdiccro.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvampscWV1c3BjZmVoZGljY3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNzc0MjEsImV4cCI6MjA5NTc1MzQyMX0.frfDmYviKFjUw0TNGcHOfmcVG_EEdevfzobomBZorIw';
+const SUPABASE_URL = 'COLE_AQUI_A_PROJECT_URL_DO_SUPABASE';
+const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_PUBLIC_KEY_DO_SUPABASE';
 const SUPABASE_CONFIGURED = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 40;
 const supabaseClient = SUPABASE_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
@@ -2857,26 +2980,42 @@ async function markGarageDone(id) {
   await renderGarage();
 }
 
-async function editGarageItem(id) {
+function editGarageItem(id) {
   const item = garageState.items.find(i => i.id === id);
   if (!item) return;
-  const name = prompt('Nome do item:', item.name);
-  if (name === null) return;
-  const lastKm = prompt('Km da última troca:', item.lastKm);
-  if (lastKm === null) return;
-  const lastDate = prompt('Data da última troca (AAAA-MM-DD):', item.lastDate || todayISO());
-  if (lastDate === null) return;
-  const intervalKm = prompt('Intervalo por km:', item.intervalKm || 0);
-  if (intervalKm === null) return;
-  const intervalMonths = prompt('Intervalo por meses:', item.intervalMonths || 0);
-  if (intervalMonths === null) return;
+
+  document.getElementById('garageEditId').value = item.id;
+  document.getElementById('garageEditName').value = item.name || '';
+  document.getElementById('garageEditLastKm').value = item.lastKm || 0;
+  document.getElementById('garageEditLastDate').value = item.lastDate || todayISO();
+  document.getElementById('garageEditIntervalKm').value = item.intervalKm || 0;
+  document.getElementById('garageEditIntervalMonths').value = item.intervalMonths || 0;
+
+  const modal = document.getElementById('garageEditModal');
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeGarageEditModal() {
+  const modal = document.getElementById('garageEditModal');
+  if (!modal) return;
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+async function saveGarageEdit(event) {
+  event.preventDefault();
+
+  const id = document.getElementById('garageEditId').value;
+  const item = garageState.items.find(i => i.id === id);
+  if (!item) return;
 
   const payload = {
-    service_name: name.trim() || item.name,
-    last_km: Number(lastKm || 0),
-    last_date: lastDate || null,
-    interval_km: Number(intervalKm || 0),
-    interval_months: Number(intervalMonths || 0),
+    service_name: document.getElementById('garageEditName').value.trim() || item.name,
+    last_km: Number(document.getElementById('garageEditLastKm').value || 0),
+    last_date: document.getElementById('garageEditLastDate').value || null,
+    interval_km: Number(document.getElementById('garageEditIntervalKm').value || 0),
+    interval_months: Number(document.getElementById('garageEditIntervalMonths').value || 0),
     updated_at: new Date().toISOString(),
   };
 
@@ -2886,10 +3025,34 @@ async function editGarageItem(id) {
     .eq('id', id)
     .select('*')
     .single();
+
   if (error) return alert('Erro ao editar: ' + error.message);
+
   garageState.items = garageState.items.map(i => i.id === id ? normalizeGarageItem(data) : i);
+
+  if (!garageState.vehicle.current_km || garageState.vehicle.current_km < payload.last_km) {
+    const updatedVehicle = await supabaseClient
+      .from('vehicles')
+      .update({ current_km: payload.last_km, updated_at: new Date().toISOString() })
+      .eq('id', garageState.vehicle.id)
+      .select('*')
+      .single();
+    if (!updatedVehicle.error) garageState.vehicle = updatedVehicle.data;
+  }
+
+  closeGarageEditModal();
   await renderGarage();
 }
+
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') closeGarageEditModal();
+});
+
+document.addEventListener('click', function(event) {
+  const modal = document.getElementById('garageEditModal');
+  if (modal && event.target === modal) closeGarageEditModal();
+});
 
 async function deleteGarageItem(id) {
   if (!confirm('Excluir este item de acompanhamento?')) return;
