@@ -1419,7 +1419,67 @@
     .part-header:hover { background: var(--card); }
   }
 
+
+
+  /* AUTENTICAÇÃO / SUPABASE */
+  .auth-shell {
+    max-width: 760px;
+    margin: 0 auto 32px;
+  }
+  .auth-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .auth-status {
+    background: rgba(0,87,217,0.08);
+    border: 1px solid rgba(0,87,217,0.25);
+    color: #9cc8ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+  }
+  .auth-status.warn {
+    background: rgba(232,184,75,0.10);
+    border-color: rgba(232,184,75,0.30);
+    color: var(--accent);
+  }
+  .auth-status.error {
+    background: rgba(232,75,75,0.10);
+    border-color: rgba(232,75,75,0.30);
+    color: #ff8b8b;
+  }
+  .auth-status.ok {
+    background: rgba(75,232,160,0.08);
+    border-color: rgba(75,232,160,0.25);
+    color: var(--green);
+  }
+  .garage-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .garage-user {
+    font-size: 0.9rem;
+    color: var(--text2);
+  }
+  .garage-user strong {
+    color: var(--white);
+  }
+  @media(max-width: 720px) {
+    .auth-grid { grid-template-columns: 1fr; }
+    .garage-topbar { flex-direction: column; align-items: stretch; }
+  }
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1961,9 +2021,52 @@
   <div class="container">
     <div class="section-label">06 — Meu carro</div>
     <h2 class="section-title">Acompanhe Trocas<br>e Próximas Revisões</h2>
-    <p class="section-desc">Registre a quilometragem atual e as últimas manutenções. O site salva tudo no seu navegador usando LocalStorage, então funciona mesmo hospedado como HTML simples no GitHub Pages.</p>
+    <p class="section-desc">Registre a quilometragem atual e as últimas manutenções. A área abaixo usa login e banco online via Supabase, permitindo acessar seus dados em qualquer celular, computador ou navegador.</p>
 
-    <div class="garage-shell">
+    <div class="auth-shell" id="garageAuthShell">
+      <div id="garageAuthMessage" class="auth-status warn">Configure o Supabase no código para ativar login e armazenamento online.</div>
+      <div class="auth-grid">
+        <div class="garage-card">
+          <h3>🔐 Entrar na garagem</h3>
+          <p>Acesse seus registros de manutenção salvos na nuvem.</p>
+          <form class="garage-form" onsubmit="garageSignIn(event)">
+            <div class="garage-field">
+              <label for="garageLoginEmail">E-mail</label>
+              <input id="garageLoginEmail" type="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="garage-field">
+              <label for="garageLoginPassword">Senha</label>
+              <input id="garageLoginPassword" type="password" placeholder="Sua senha" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Entrar</button>
+          </form>
+        </div>
+
+        <div class="garage-card">
+          <h3>🆕 Criar acesso</h3>
+          <p>Crie um login simples para proteger os dados do seu veículo.</p>
+          <form class="garage-form" onsubmit="garageSignUp(event)">
+            <div class="garage-field">
+              <label for="garageSignupEmail">E-mail</label>
+              <input id="garageSignupEmail" type="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="garage-field">
+              <label for="garageSignupPassword">Senha</label>
+              <input id="garageSignupPassword" type="password" minlength="6" placeholder="Mínimo de 6 caracteres" required>
+            </div>
+            <button class="btn btn-accent" type="submit">Criar conta</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="garageApp" style="display:none;">
+      <div class="garage-topbar">
+        <div class="garage-user">Logado como <strong id="garageUserEmail"></strong></div>
+        <button class="btn btn-accent" type="button" onclick="garageLogout()">Sair</button>
+      </div>
+
+      <div class="garage-shell">
       <div class="garage-card">
         <h3>🚗 Dados atuais do carro</h3>
         <p>Atualize a quilometragem sempre que abastecer, fizer revisão ou quiser conferir o que está perto de vencer.</p>
@@ -1977,7 +2080,7 @@
             <button class="btn btn-accent" type="button" onclick="resetGarageDefaults()">Restaurar itens padrão</button>
           </div>
         </form>
-        <div class="garage-note"><b>Privacidade:</b> os dados ficam somente neste navegador. Se abrir em outro celular/computador, você precisará cadastrar novamente.</div>
+        <div class="garage-note"><b>Privacidade:</b> os dados ficam vinculados ao seu usuário autenticado no Supabase. Não coloque a chave <code>service_role</code> neste HTML.</div>
 
         <div style="height:24px"></div>
         <h3>➕ Adicionar manutenção</h3>
@@ -2018,6 +2121,7 @@
           <p style="margin-bottom:16px;">A barra mostra quanto do intervalo já foi usado. Vencido significa que passou do limite por km ou por tempo.</p>
           <div class="garage-list" id="garageList"></div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -2419,18 +2523,33 @@ obdCodes.forEach(o => {
 });
 
 
-// === GARAGEM / LOCALSTORAGE ===
-const GARAGE_STORAGE_KEY = 'fiestaRocamGarageV1';
+
+// === GARAGEM / SUPABASE ===
+// 1) Crie um projeto no Supabase.
+// 2) Execute o arquivo SQL gerado: supabase_garagem_schema.sql.
+// 3) Cole abaixo a Project URL e a anon public key do Supabase.
+// IMPORTANTE: nunca coloque a service_role key no front-end.
+const SUPABASE_URL = 'https://rojjlqeuspcfehdiccro.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvampscWV1c3BjZmVoZGljY3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNzc0MjEsImV4cCI6MjA5NTc1MzQyMX0.frfDmYviKFjUw0TNGcHOfmcVG_EEdevfzobomBZorIw';
+const SUPABASE_CONFIGURED = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 40;
+const supabaseClient = SUPABASE_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
 const garageDefaultItems = [
-  { id: 'oleo-filtro', name: 'Óleo do motor + filtro', lastKm: 0, lastDate: '', intervalKm: 5000, intervalMonths: 6 },
-  { id: 'filtro-ar', name: 'Filtro de ar do motor', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
-  { id: 'filtro-combustivel', name: 'Filtro de combustível', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
-  { id: 'velas', name: 'Velas de ignição', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
-  { id: 'limpeza-injecao', name: 'Limpeza de injeção / TBI', lastKm: 0, lastDate: '', intervalKm: 30000, intervalMonths: 24 },
-  { id: 'fluido-freio', name: 'Fluido de freio', lastKm: 0, lastDate: '', intervalKm: 40000, intervalMonths: 24 },
-  { id: 'correia-dentada', name: 'Correia dentada + tensionador', lastKm: 0, lastDate: '', intervalKm: 60000, intervalMonths: 60 },
-  { id: 'alinhamento', name: 'Alinhamento e balanceamento', lastKm: 0, lastDate: '', intervalKm: 10000, intervalMonths: 6 },
+  { id: 'oleo-filtro', name: 'Óleo do motor + filtro', lastKm: 0, lastDate: null, intervalKm: 5000, intervalMonths: 6 },
+  { id: 'filtro-ar', name: 'Filtro de ar do motor', lastKm: 0, lastDate: null, intervalKm: 15000, intervalMonths: 12 },
+  { id: 'filtro-combustivel', name: 'Filtro de combustível', lastKm: 0, lastDate: null, intervalKm: 15000, intervalMonths: 12 },
+  { id: 'velas', name: 'Velas de ignição', lastKm: 0, lastDate: null, intervalKm: 15000, intervalMonths: 12 },
+  { id: 'limpeza-injecao', name: 'Limpeza de injeção / TBI', lastKm: 0, lastDate: null, intervalKm: 30000, intervalMonths: 24 },
+  { id: 'fluido-freio', name: 'Fluido de freio', lastKm: 0, lastDate: null, intervalKm: 40000, intervalMonths: 24 },
+  { id: 'correia-dentada', name: 'Correia dentada + tensionador', lastKm: 0, lastDate: null, intervalKm: 60000, intervalMonths: 60 },
+  { id: 'alinhamento', name: 'Alinhamento e balanceamento', lastKm: 0, lastDate: null, intervalKm: 10000, intervalMonths: 6 },
 ];
+
+let garageState = {
+  user: null,
+  vehicle: null,
+  items: [],
+};
 
 function todayISO() {
   const d = new Date();
@@ -2438,16 +2557,138 @@ function todayISO() {
   return new Date(d - tz).toISOString().slice(0, 10);
 }
 
-function loadGarage() {
-  try {
-    const raw = localStorage.getItem(GARAGE_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  return { currentKm: 0, items: garageDefaultItems.map(item => ({ ...item })) };
+function setGarageAuthMessage(text, type = 'warn') {
+  const el = document.getElementById('garageAuthMessage');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'auth-status ' + type;
 }
 
-function saveGarage(data) {
-  localStorage.setItem(GARAGE_STORAGE_KEY, JSON.stringify(data));
+function showGarageLoggedOut() {
+  const shell = document.getElementById('garageAuthShell');
+  const app = document.getElementById('garageApp');
+  if (shell) shell.style.display = 'block';
+  if (app) app.style.display = 'none';
+}
+
+function showGarageLoggedIn() {
+  const shell = document.getElementById('garageAuthShell');
+  const app = document.getElementById('garageApp');
+  if (shell) shell.style.display = 'none';
+  if (app) app.style.display = 'block';
+  const email = document.getElementById('garageUserEmail');
+  if (email) email.textContent = garageState.user?.email || '';
+}
+
+function normalizeGarageItem(row) {
+  return {
+    id: row.id,
+    name: row.service_name,
+    lastKm: row.last_km || 0,
+    lastDate: row.last_date,
+    intervalKm: row.interval_km || 0,
+    intervalMonths: row.interval_months || 0,
+    notes: row.notes || '',
+    cost: row.cost || null,
+  };
+}
+
+function toDbGarageItem(item) {
+  return {
+    user_id: garageState.user.id,
+    vehicle_id: garageState.vehicle.id,
+    service_name: item.name,
+    last_km: Number(item.lastKm || 0),
+    last_date: item.lastDate || null,
+    interval_km: Number(item.intervalKm || 0),
+    interval_months: Number(item.intervalMonths || 0),
+    notes: item.notes || null,
+    cost: item.cost || null,
+  };
+}
+
+async function ensureGarageVehicle() {
+  const { data, error } = await supabaseClient
+    .from('vehicles')
+    .select('*')
+    .eq('user_id', garageState.user.id)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+  if (data) {
+    garageState.vehicle = data;
+    return data;
+  }
+
+  const payload = {
+    user_id: garageState.user.id,
+    name: 'Ford Fiesta Hatch',
+    model_year: 2007,
+    engine: 'Zetec Rocam 1.6 8V Flex',
+    current_km: 0,
+  };
+  const created = await supabaseClient.from('vehicles').insert(payload).select('*').single();
+  if (created.error) throw created.error;
+  garageState.vehicle = created.data;
+  return created.data;
+}
+
+async function loadGarageFromSupabase() {
+  await ensureGarageVehicle();
+  const { data, error } = await supabaseClient
+    .from('maintenance_records')
+    .select('*')
+    .eq('vehicle_id', garageState.vehicle.id)
+    .order('service_name', { ascending: true });
+
+  if (error) throw error;
+  garageState.items = (data || []).map(normalizeGarageItem);
+  if (!garageState.items.length) {
+    await seedGarageDefaults(false);
+  }
+}
+
+async function garageSignIn(event) {
+  event.preventDefault();
+  if (!SUPABASE_CONFIGURED) {
+    setGarageAuthMessage('Configure SUPABASE_URL e SUPABASE_ANON_KEY no código do site antes de usar o login.', 'error');
+    return;
+  }
+  const email = document.getElementById('garageLoginEmail').value.trim();
+  const password = document.getElementById('garageLoginPassword').value;
+  setGarageAuthMessage('Entrando...', 'warn');
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) {
+    setGarageAuthMessage('Erro ao entrar: ' + error.message, 'error');
+    return;
+  }
+}
+
+async function garageSignUp(event) {
+  event.preventDefault();
+  if (!SUPABASE_CONFIGURED) {
+    setGarageAuthMessage('Configure SUPABASE_URL e SUPABASE_ANON_KEY no código do site antes de criar conta.', 'error');
+    return;
+  }
+  const email = document.getElementById('garageSignupEmail').value.trim();
+  const password = document.getElementById('garageSignupPassword').value;
+  setGarageAuthMessage('Criando conta...', 'warn');
+  const { error } = await supabaseClient.auth.signUp({ email, password });
+  if (error) {
+    setGarageAuthMessage('Erro ao criar conta: ' + error.message, 'error');
+    return;
+  }
+  setGarageAuthMessage('Conta criada. Se o Supabase pedir confirmação por e-mail, confirme antes de entrar.', 'ok');
+}
+
+async function garageLogout() {
+  if (!supabaseClient) return;
+  await supabaseClient.auth.signOut();
+  garageState = { user: null, vehicle: null, items: [] };
+  showGarageLoggedOut();
+  setGarageAuthMessage('Você saiu da garagem.', 'ok');
 }
 
 function formatKm(value) {
@@ -2498,20 +2739,19 @@ function garageItemStatus(item, currentKm) {
   return { kmRemaining, daysRemaining, progress, status };
 }
 
-function renderGarage() {
-  const data = loadGarage();
+async function renderGarage() {
   const kmInput = document.getElementById('garageCurrentKm');
   const list = document.getElementById('garageList');
-  if (!kmInput || !list) return;
-  kmInput.value = data.currentKm || '';
+  if (!kmInput || !list || !garageState.vehicle) return;
+  kmInput.value = garageState.vehicle.current_km || '';
 
   list.innerHTML = '';
   let due = 0;
   let warn = 0;
 
-  const sorted = [...data.items].sort((a, b) => {
-    const sa = garageItemStatus(a, data.currentKm);
-    const sb = garageItemStatus(b, data.currentKm);
+  const sorted = [...garageState.items].sort((a, b) => {
+    const sa = garageItemStatus(a, garageState.vehicle.current_km);
+    const sb = garageItemStatus(b, garageState.vehicle.current_km);
     const rank = { due: 0, warn: 1, ok: 2 };
     return rank[sa.status] - rank[sb.status] || sb.progress - sa.progress;
   });
@@ -2521,7 +2761,7 @@ function renderGarage() {
   }
 
   sorted.forEach(item => {
-    const st = garageItemStatus(item, data.currentKm);
+    const st = garageItemStatus(item, garageState.vehicle.current_km);
     if (st.status === 'due') due++;
     if (st.status === 'warn') warn++;
     const statusLabel = st.status === 'due' ? 'Vencido' : st.status === 'warn' ? 'Atenção' : 'Em dia';
@@ -2552,50 +2792,73 @@ function renderGarage() {
     list.appendChild(div);
   });
 
-  document.getElementById('garageTotalItems').textContent = data.items.length;
+  document.getElementById('garageTotalItems').textContent = garageState.items.length;
   document.getElementById('garageDueItems').textContent = due;
   document.getElementById('garageWarnItems').textContent = warn;
 }
 
-function saveGarageKm(event) {
+async function saveGarageKm(event) {
   event.preventDefault();
-  const data = loadGarage();
-  data.currentKm = Number(document.getElementById('garageCurrentKm').value || 0);
-  saveGarage(data);
-  renderGarage();
+  const currentKm = Number(document.getElementById('garageCurrentKm').value || 0);
+  const { data, error } = await supabaseClient
+    .from('vehicles')
+    .update({ current_km: currentKm, updated_at: new Date().toISOString() })
+    .eq('id', garageState.vehicle.id)
+    .select('*')
+    .single();
+  if (error) return alert('Erro ao salvar km: ' + error.message);
+  garageState.vehicle = data;
+  await renderGarage();
 }
 
-function addGarageItem(event) {
+async function addGarageItem(event) {
   event.preventDefault();
-  const data = loadGarage();
   const item = {
-    id: 'item-' + Date.now(),
     name: document.getElementById('garageItemName').value.trim(),
     lastKm: Number(document.getElementById('garageLastKm').value || 0),
-    lastDate: document.getElementById('garageLastDate').value,
+    lastDate: document.getElementById('garageLastDate').value || null,
     intervalKm: Number(document.getElementById('garageIntervalKm').value || 0),
     intervalMonths: Number(document.getElementById('garageIntervalMonths').value || 0),
   };
-  data.items.push(item);
-  if (!data.currentKm || data.currentKm < item.lastKm) data.currentKm = item.lastKm;
-  saveGarage(data);
+  const { data, error } = await supabaseClient
+    .from('maintenance_records')
+    .insert(toDbGarageItem(item))
+    .select('*')
+    .single();
+  if (error) return alert('Erro ao adicionar: ' + error.message);
+  garageState.items.push(normalizeGarageItem(data));
+
+  if (!garageState.vehicle.current_km || garageState.vehicle.current_km < item.lastKm) {
+    const updated = await supabaseClient
+      .from('vehicles')
+      .update({ current_km: item.lastKm, updated_at: new Date().toISOString() })
+      .eq('id', garageState.vehicle.id)
+      .select('*')
+      .single();
+    if (!updated.error) garageState.vehicle = updated.data;
+  }
+
   event.target.reset();
-  renderGarage();
+  await renderGarage();
 }
 
-function markGarageDone(id) {
-  const data = loadGarage();
-  const item = data.items.find(i => i.id === id);
+async function markGarageDone(id) {
+  const item = garageState.items.find(i => i.id === id);
   if (!item) return;
-  item.lastKm = Number(data.currentKm || document.getElementById('garageCurrentKm').value || 0);
-  item.lastDate = todayISO();
-  saveGarage(data);
-  renderGarage();
+  const lastKm = Number(garageState.vehicle.current_km || document.getElementById('garageCurrentKm').value || 0);
+  const { data, error } = await supabaseClient
+    .from('maintenance_records')
+    .update({ last_km: lastKm, last_date: todayISO(), updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select('*')
+    .single();
+  if (error) return alert('Erro ao atualizar: ' + error.message);
+  garageState.items = garageState.items.map(i => i.id === id ? normalizeGarageItem(data) : i);
+  await renderGarage();
 }
 
-function editGarageItem(id) {
-  const data = loadGarage();
-  const item = data.items.find(i => i.id === id);
+async function editGarageItem(id) {
+  const item = garageState.items.find(i => i.id === id);
   if (!item) return;
   const name = prompt('Nome do item:', item.name);
   if (name === null) return;
@@ -2607,33 +2870,107 @@ function editGarageItem(id) {
   if (intervalKm === null) return;
   const intervalMonths = prompt('Intervalo por meses:', item.intervalMonths || 0);
   if (intervalMonths === null) return;
-  item.name = name.trim() || item.name;
-  item.lastKm = Number(lastKm || 0);
-  item.lastDate = lastDate;
-  item.intervalKm = Number(intervalKm || 0);
-  item.intervalMonths = Number(intervalMonths || 0);
-  saveGarage(data);
-  renderGarage();
+
+  const payload = {
+    service_name: name.trim() || item.name,
+    last_km: Number(lastKm || 0),
+    last_date: lastDate || null,
+    interval_km: Number(intervalKm || 0),
+    interval_months: Number(intervalMonths || 0),
+    updated_at: new Date().toISOString(),
+  };
+
+  const { data, error } = await supabaseClient
+    .from('maintenance_records')
+    .update(payload)
+    .eq('id', id)
+    .select('*')
+    .single();
+  if (error) return alert('Erro ao editar: ' + error.message);
+  garageState.items = garageState.items.map(i => i.id === id ? normalizeGarageItem(data) : i);
+  await renderGarage();
 }
 
-function deleteGarageItem(id) {
+async function deleteGarageItem(id) {
   if (!confirm('Excluir este item de acompanhamento?')) return;
-  const data = loadGarage();
-  data.items = data.items.filter(i => i.id !== id);
-  saveGarage(data);
-  renderGarage();
+  const { error } = await supabaseClient.from('maintenance_records').delete().eq('id', id);
+  if (error) return alert('Erro ao excluir: ' + error.message);
+  garageState.items = garageState.items.filter(i => i.id !== id);
+  await renderGarage();
 }
 
-function resetGarageDefaults() {
+async function seedGarageDefaults(useCurrentDate = true) {
+  const currentKm = Number(document.getElementById('garageCurrentKm')?.value || garageState.vehicle?.current_km || 0);
+  const lastDate = useCurrentDate ? todayISO() : null;
+  const payload = garageDefaultItems.map(item => toDbGarageItem({ ...item, lastKm: currentKm, lastDate }));
+  const { data, error } = await supabaseClient.from('maintenance_records').insert(payload).select('*');
+  if (error) throw error;
+  garageState.items = (data || []).map(normalizeGarageItem);
+}
+
+async function resetGarageDefaults() {
   if (!confirm('Restaurar os itens padrão? Seus itens atuais serão substituídos.')) return;
-  const currentKm = Number(document.getElementById('garageCurrentKm').value || loadGarage().currentKm || 0);
-  const today = todayISO();
-  const items = garageDefaultItems.map(item => ({ ...item, lastKm: currentKm, lastDate: today }));
-  saveGarage({ currentKm, items });
-  renderGarage();
+  const currentKm = Number(document.getElementById('garageCurrentKm').value || garageState.vehicle.current_km || 0);
+
+  const updatedVehicle = await supabaseClient
+    .from('vehicles')
+    .update({ current_km: currentKm, updated_at: new Date().toISOString() })
+    .eq('id', garageState.vehicle.id)
+    .select('*')
+    .single();
+  if (updatedVehicle.error) return alert('Erro ao salvar km: ' + updatedVehicle.error.message);
+  garageState.vehicle = updatedVehicle.data;
+
+  const del = await supabaseClient.from('maintenance_records').delete().eq('vehicle_id', garageState.vehicle.id);
+  if (del.error) return alert('Erro ao limpar itens: ' + del.error.message);
+  try {
+    await seedGarageDefaults(true);
+    await renderGarage();
+  } catch (e) {
+    alert('Erro ao restaurar itens: ' + e.message);
+  }
 }
 
-renderGarage();
+async function initGarageSupabase() {
+  if (!SUPABASE_CONFIGURED) {
+    showGarageLoggedOut();
+    setGarageAuthMessage('Antes de usar: cole sua Project URL e anon public key do Supabase no código do HTML.', 'warn');
+    return;
+  }
+
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+  if (sessionData.session?.user) {
+    garageState.user = sessionData.session.user;
+    showGarageLoggedIn();
+    try {
+      await loadGarageFromSupabase();
+      await renderGarage();
+    } catch (e) {
+      alert('Erro ao carregar garagem: ' + e.message);
+    }
+  } else {
+    showGarageLoggedOut();
+    setGarageAuthMessage('Entre ou crie uma conta para acessar sua garagem online.', 'warn');
+  }
+
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    if (!session?.user) {
+      garageState = { user: null, vehicle: null, items: [] };
+      showGarageLoggedOut();
+      return;
+    }
+    garageState.user = session.user;
+    showGarageLoggedIn();
+    try {
+      await loadGarageFromSupabase();
+      await renderGarage();
+    } catch (e) {
+      alert('Erro ao carregar garagem: ' + e.message);
+    }
+  });
+}
+
+initGarageSupabase();
 
 // === QUIZ ===
 const quizData = [
