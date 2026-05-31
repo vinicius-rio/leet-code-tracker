@@ -1,11 +1,6 @@
 # Garagem Ford Fiesta 2007 — Zetec Rocam
 
-🔗 **Acesse o site:** COLE_AQUI_A_URL_DO_PROJETO
-
-> Substitua o texto acima pela URL publicada no GitHub Pages, por exemplo:  
-> `https://seu-usuario.github.io/nome-do-repositorio/`
-
----
+🔗 **Acesse o site:** [My Garage](https://vinicius-rio.github.io/my-garage/)
 
 ## 📌 Sobre o projeto
 
@@ -13,7 +8,6 @@ Este projeto é um site interativo e responsivo criado para documentar o funcion
 
 A aplicação combina uma documentação visual para leigos sobre motor, consumo, sistema eletrônico, manutenção preventiva e diagnóstico com uma área autenticada para registrar e acompanhar manutenções reais do carro.
 
----
 
 ## 🚗 Veículo documentado
 
@@ -27,7 +21,6 @@ A aplicação combina uma documentação visual para leigos sobre motor, consumo
 - **Comando:** 8 válvulas
 - **Tração:** Dianteira
 
----
 
 ## 🧠 Objetivo
 
@@ -40,7 +33,6 @@ O objetivo do projeto é permitir que o proprietário do veículo:
 5. Acesse os dados em qualquer dispositivo, sem depender do navegador local.
 6. Proteja os registros com login e banco de dados em nuvem.
 
----
 
 ## ✨ Funcionalidades principais
 
@@ -84,7 +76,6 @@ A área de garagem permite:
   - atenção;
   - vencida.
 
----
 
 ## 🧰 Tecnologias utilizadas
 
@@ -103,7 +94,6 @@ A área de garagem permite:
 - **PostgreSQL**
 - **Row Level Security (RLS)**
 
----
 
 ## 🏗️ Arquitetura
 
@@ -121,7 +111,6 @@ Row Level Security por usuário
 
 O projeto não usa servidor próprio. O front-end é estático e o Supabase fornece autenticação, banco de dados e API.
 
----
 
 ## 🔐 Segurança
 
@@ -139,7 +128,6 @@ As tabelas usam o campo `user_id` associado ao usuário autenticado por `auth.ui
 - Não deixe cadastro público aberto se o app for de uso pessoal.
 - Evite armazenar imagens ou arquivos grandes se quiser manter custo zero.
 
----
 
 ## 🗄️ Estrutura do banco
 
@@ -148,7 +136,7 @@ As tabelas usam o campo `user_id` associado ao usuário autenticado por `auth.ui
 Armazena os dados principais do veículo.
 
 | Campo | Descrição |
-|---|---|
+|
 | `id` | Identificador único do veículo |
 | `user_id` | ID do usuário dono do veículo |
 | `name` | Nome do veículo |
@@ -163,7 +151,7 @@ Armazena os dados principais do veículo.
 Armazena os registros de manutenção.
 
 | Campo | Descrição |
-|---|---|
+|
 | `id` | Identificador único da manutenção |
 | `user_id` | ID do usuário dono do registro |
 | `vehicle_id` | Veículo relacionado |
@@ -176,7 +164,6 @@ Armazena os registros de manutenção.
 | `created_at` | Data de criação |
 | `updated_at` | Data da última atualização |
 
----
 
 ## 🚀 Como executar o projeto
 
@@ -233,7 +220,6 @@ Folder: /root
 
 Depois salve e aguarde a URL ser publicada.
 
----
 
 ## ⚙️ Configuração recomendada no Supabase
 
@@ -246,7 +232,6 @@ Para uso pessoal, recomenda-se:
 - criar manualmente o usuário principal;
 - manter RLS ativado nas tabelas.
 
----
 
 ## 📱 Responsividade
 
@@ -259,7 +244,6 @@ O layout foi adaptado para funcionar em:
 
 A navegação mobile possui menu compacto, os cards se reorganizam em coluna e os elementos interativos se ajustam à largura da tela.
 
----
 
 ## 🧪 Itens de manutenção acompanhados
 
@@ -282,7 +266,6 @@ O projeto pode acompanhar itens como:
 - amortecedores;
 - qualquer outro item personalizado.
 
----
 
 ## 📊 Lógica de vencimento
 
@@ -298,7 +281,6 @@ A manutenção pode vencer por dois critérios:
 
 O sistema calcula automaticamente o status com base nesses critérios.
 
----
 
 ## 🧾 Possíveis melhorias futuras
 
@@ -313,7 +295,6 @@ O sistema calcula automaticamente o status com base nesses critérios.
 - Registro de oficinas e mecânicos;
 - Modo somente leitura para consulta pública.
 
----
 
 ## 📚 Referências
 
@@ -322,15 +303,12 @@ O sistema calcula automaticamente o status com base nesses critérios.
 - PostgreSQL — Documentação oficial sobre políticas de segurança por linha.
 - Fichas técnicas públicas do Ford Fiesta Hatch 2007 1.6 Zetec Rocam Flex.
 
----
 
 ## 👤 Autor
 
 Projeto desenvolvido por **Vinicius Santoro** como uma garagem digital pessoal para acompanhamento e estudo do Ford Fiesta Hatch 2007.
 
----
 
 ## 📄 Licença
 
 Este projeto é de uso pessoal e educacional.  
-Caso deseje publicar como open source, recomenda-se adicionar uma licença formal, como MIT, Apache 2.0 ou GPL.
