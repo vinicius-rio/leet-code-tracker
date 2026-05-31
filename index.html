@@ -942,6 +942,247 @@
   }
 
 
+  /* GARAGEM / ACOMPANHAMENTO DE MANUTENÇÃO */
+  .garage-shell {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.4fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .garage-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .garage-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .garage-card p {
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  .garage-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .garage-field label {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 5px;
+  }
+
+  .garage-field input, .garage-field select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .garage-field input:focus, .garage-field select:focus {
+    border-color: var(--accent);
+    background: rgba(26,30,40,0.88);
+  }
+
+  .garage-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .garage-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .garage-mini {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .garage-mini .garage-mini-num {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.55rem;
+    color: var(--accent);
+    line-height: 1.1;
+  }
+
+  .garage-mini .garage-mini-label {
+    display: block;
+    font-size: 0.74rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .garage-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .garage-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .garage-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--ford-blue2);
+  }
+
+  .garage-item.due::before { background: var(--red); }
+  .garage-item.warn::before { background: var(--accent); }
+  .garage-item.ok::before { background: var(--green); }
+
+  .garage-item-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .garage-item-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    color: var(--white);
+    letter-spacing: 0.4px;
+  }
+
+  .garage-status {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .garage-status.due { color: var(--red); background: rgba(232,75,75,0.12); border: 1px solid rgba(232,75,75,0.25); }
+  .garage-status.warn { color: var(--accent); background: rgba(232,184,75,0.12); border: 1px solid rgba(232,184,75,0.25); }
+  .garage-status.ok { color: var(--green); background: rgba(75,232,160,0.10); border: 1px solid rgba(75,232,160,0.25); }
+
+  .garage-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .garage-meta div {
+    background: rgba(13,15,20,0.35);
+    border: 1px solid rgba(42,47,62,0.7);
+    border-radius: 8px;
+    padding: 9px 10px;
+  }
+
+  .garage-meta b {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .garage-meta span {
+    color: var(--text3);
+    font-size: 0.78rem;
+  }
+
+  .garage-progress {
+    height: 6px;
+    background: rgba(13,15,20,0.55);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .garage-progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--ford-blue2), var(--accent));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .garage-item.ok .garage-progress-fill { background: linear-gradient(90deg, var(--ford-blue2), var(--green)); }
+  .garage-item.warn .garage-progress-fill { background: linear-gradient(90deg, var(--ford-blue2), var(--accent)); }
+  .garage-item.due .garage-progress-fill { background: linear-gradient(90deg, var(--red), var(--accent)); }
+
+  .garage-item-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-small {
+    font-size: 0.72rem;
+    padding: 8px 12px;
+  }
+
+  .garage-note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(232,184,75,0.08);
+    border: 1px solid rgba(232,184,75,0.2);
+    color: var(--text2);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 860px) {
+    .garage-shell { grid-template-columns: 1fr; }
+    .garage-summary { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .garage-card { padding: 22px; }
+    .garage-summary, .garage-meta { grid-template-columns: 1fr; }
+    .garage-item-head { flex-direction: column; }
+    .garage-actions .btn, .garage-item-actions .btn { width: 100%; }
+  }
+
+
   /* RESPONSIVIDADE — celulares e tablets
      Mantém a identidade visual original, mas adapta largura, espaçamento,
      menu, grids, canvas, tabelas e cards para telas pequenas. */
@@ -1195,6 +1436,7 @@
     <a href="#consumo">Consumo</a>
     <a href="#eletronico">Elétrica</a>
     <a href="#manutencao">Manutenção</a>
+    <a href="#garagem">Meu carro</a>
     <a href="#diagnostico">Diagnóstico</a>
     <a href="#quiz">Quiz</a>
   </nav>
@@ -1713,10 +1955,78 @@
   </div>
 </section>
 
-<!-- DIAGNOSTICO -->
-<section id="diagnostico" class="bg-alt">
+
+<!-- GARAGEM / ACOMPANHAMENTO DE MANUTENÇÃO -->
+<section id="garagem" class="bg-alt">
   <div class="container">
-    <div class="section-label">06 — Diagnóstico de Falhas</div>
+    <div class="section-label">06 — Meu carro</div>
+    <h2 class="section-title">Acompanhe Trocas<br>e Próximas Revisões</h2>
+    <p class="section-desc">Registre a quilometragem atual e as últimas manutenções. O site salva tudo no seu navegador usando LocalStorage, então funciona mesmo hospedado como HTML simples no GitHub Pages.</p>
+
+    <div class="garage-shell">
+      <div class="garage-card">
+        <h3>🚗 Dados atuais do carro</h3>
+        <p>Atualize a quilometragem sempre que abastecer, fizer revisão ou quiser conferir o que está perto de vencer.</p>
+        <form class="garage-form" onsubmit="saveGarageKm(event)">
+          <div class="garage-field">
+            <label for="garageCurrentKm">Quilometragem atual</label>
+            <input id="garageCurrentKm" type="number" min="0" step="1" placeholder="Ex: 142000">
+          </div>
+          <div class="garage-actions">
+            <button class="btn btn-primary" type="submit">Salvar km atual</button>
+            <button class="btn btn-accent" type="button" onclick="resetGarageDefaults()">Restaurar itens padrão</button>
+          </div>
+        </form>
+        <div class="garage-note"><b>Privacidade:</b> os dados ficam somente neste navegador. Se abrir em outro celular/computador, você precisará cadastrar novamente.</div>
+
+        <div style="height:24px"></div>
+        <h3>➕ Adicionar manutenção</h3>
+        <p>Use para itens específicos do seu carro, como terminal de direção, pneus, bateria, amortecedor ou qualquer peça trocada.</p>
+        <form class="garage-form" onsubmit="addGarageItem(event)">
+          <div class="garage-field">
+            <label for="garageItemName">Item</label>
+            <input id="garageItemName" type="text" placeholder="Ex: Terminal de direção" required>
+          </div>
+          <div class="garage-field">
+            <label for="garageLastKm">Km da última troca</label>
+            <input id="garageLastKm" type="number" min="0" step="1" placeholder="Ex: 140000" required>
+          </div>
+          <div class="garage-field">
+            <label for="garageLastDate">Data da última troca</label>
+            <input id="garageLastDate" type="date" required>
+          </div>
+          <div class="garage-field">
+            <label for="garageIntervalKm">Intervalo por km</label>
+            <input id="garageIntervalKm" type="number" min="0" step="100" placeholder="Ex: 10000">
+          </div>
+          <div class="garage-field">
+            <label for="garageIntervalMonths">Intervalo por meses</label>
+            <input id="garageIntervalMonths" type="number" min="0" step="1" placeholder="Ex: 6">
+          </div>
+          <button class="btn btn-primary" type="submit">Adicionar acompanhamento</button>
+        </form>
+      </div>
+
+      <div>
+        <div class="garage-summary">
+          <div class="garage-mini"><span class="garage-mini-num" id="garageTotalItems">0</span><span class="garage-mini-label">Itens</span></div>
+          <div class="garage-mini"><span class="garage-mini-num" id="garageDueItems">0</span><span class="garage-mini-label">Vencidos</span></div>
+          <div class="garage-mini"><span class="garage-mini-num" id="garageWarnItems">0</span><span class="garage-mini-label">Atenção</span></div>
+        </div>
+        <div class="garage-card">
+          <h3>📋 Próximas manutenções</h3>
+          <p style="margin-bottom:16px;">A barra mostra quanto do intervalo já foi usado. Vencido significa que passou do limite por km ou por tempo.</p>
+          <div class="garage-list" id="garageList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNOSTICO -->
+<section id="diagnostico">
+  <div class="container">
+    <div class="section-label">07 — Diagnóstico de Falhas</div>
     <h2 class="section-title">Algo Errado?<br>Identifique o Problema</h2>
     <p class="section-desc">Busque por sintomas, sons ou sinais visuais para entender o que pode estar acontecendo com seu Fiesta.</p>
 
@@ -1769,7 +2079,7 @@
 <!-- QUIZ -->
 <section id="quiz">
   <div class="container">
-    <div class="section-label">07 — Quiz</div>
+    <div class="section-label">08 — Quiz</div>
     <h2 class="section-title">Teste Seus<br>Conhecimentos</h2>
     <p class="section-desc">Veja se você aprendeu como funciona o seu Fiesta. 10 perguntas sobre mecânica e eletrônica.</p>
 
@@ -2107,6 +2417,223 @@ obdCodes.forEach(o => {
   `;
   tbody.appendChild(tr);
 });
+
+
+// === GARAGEM / LOCALSTORAGE ===
+const GARAGE_STORAGE_KEY = 'fiestaRocamGarageV1';
+const garageDefaultItems = [
+  { id: 'oleo-filtro', name: 'Óleo do motor + filtro', lastKm: 0, lastDate: '', intervalKm: 5000, intervalMonths: 6 },
+  { id: 'filtro-ar', name: 'Filtro de ar do motor', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
+  { id: 'filtro-combustivel', name: 'Filtro de combustível', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
+  { id: 'velas', name: 'Velas de ignição', lastKm: 0, lastDate: '', intervalKm: 15000, intervalMonths: 12 },
+  { id: 'limpeza-injecao', name: 'Limpeza de injeção / TBI', lastKm: 0, lastDate: '', intervalKm: 30000, intervalMonths: 24 },
+  { id: 'fluido-freio', name: 'Fluido de freio', lastKm: 0, lastDate: '', intervalKm: 40000, intervalMonths: 24 },
+  { id: 'correia-dentada', name: 'Correia dentada + tensionador', lastKm: 0, lastDate: '', intervalKm: 60000, intervalMonths: 60 },
+  { id: 'alinhamento', name: 'Alinhamento e balanceamento', lastKm: 0, lastDate: '', intervalKm: 10000, intervalMonths: 6 },
+];
+
+function todayISO() {
+  const d = new Date();
+  const tz = d.getTimezoneOffset() * 60000;
+  return new Date(d - tz).toISOString().slice(0, 10);
+}
+
+function loadGarage() {
+  try {
+    const raw = localStorage.getItem(GARAGE_STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return { currentKm: 0, items: garageDefaultItems.map(item => ({ ...item })) };
+}
+
+function saveGarage(data) {
+  localStorage.setItem(GARAGE_STORAGE_KEY, JSON.stringify(data));
+}
+
+function formatKm(value) {
+  const n = Number(value || 0);
+  return n.toLocaleString('pt-BR') + ' km';
+}
+
+function formatDateBR(value) {
+  if (!value) return 'Não informado';
+  const [y, m, d] = value.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function addMonths(dateISO, months) {
+  if (!dateISO || !months) return null;
+  const d = new Date(dateISO + 'T12:00:00');
+  d.setMonth(d.getMonth() + Number(months));
+  return d;
+}
+
+function daysBetween(a, b) {
+  const one = 24 * 60 * 60 * 1000;
+  return Math.ceil((b - a) / one);
+}
+
+function garageItemStatus(item, currentKm) {
+  const intervalKm = Number(item.intervalKm || 0);
+  const intervalMonths = Number(item.intervalMonths || 0);
+  const lastKm = Number(item.lastKm || 0);
+  const kmUsed = Math.max(0, Number(currentKm || 0) - lastKm);
+  const kmRemaining = intervalKm ? intervalKm - kmUsed : null;
+  const kmProgress = intervalKm ? Math.min(100, Math.max(0, (kmUsed / intervalKm) * 100)) : 0;
+
+  const dueDate = addMonths(item.lastDate, intervalMonths);
+  const daysRemaining = dueDate ? daysBetween(new Date(), dueDate) : null;
+  let timeProgress = 0;
+  if (dueDate && item.lastDate) {
+    const start = new Date(item.lastDate + 'T12:00:00');
+    const total = Math.max(1, daysBetween(start, dueDate));
+    const used = Math.max(0, daysBetween(start, new Date()));
+    timeProgress = Math.min(100, (used / total) * 100);
+  }
+
+  const progress = Math.max(kmProgress, timeProgress);
+  const isDue = (kmRemaining !== null && kmRemaining <= 0) || (daysRemaining !== null && daysRemaining <= 0);
+  const isWarn = !isDue && ((kmRemaining !== null && kmRemaining <= Math.max(1000, intervalKm * 0.15)) || (daysRemaining !== null && daysRemaining <= 30));
+  const status = isDue ? 'due' : isWarn ? 'warn' : 'ok';
+  return { kmRemaining, daysRemaining, progress, status };
+}
+
+function renderGarage() {
+  const data = loadGarage();
+  const kmInput = document.getElementById('garageCurrentKm');
+  const list = document.getElementById('garageList');
+  if (!kmInput || !list) return;
+  kmInput.value = data.currentKm || '';
+
+  list.innerHTML = '';
+  let due = 0;
+  let warn = 0;
+
+  const sorted = [...data.items].sort((a, b) => {
+    const sa = garageItemStatus(a, data.currentKm);
+    const sb = garageItemStatus(b, data.currentKm);
+    const rank = { due: 0, warn: 1, ok: 2 };
+    return rank[sa.status] - rank[sb.status] || sb.progress - sa.progress;
+  });
+
+  if (!sorted.length) {
+    list.innerHTML = '<div class="garage-item"><div class="garage-item-title">Nenhum item cadastrado</div><p style="color:var(--text2);margin-top:8px;">Adicione uma manutenção no formulário ao lado.</p></div>';
+  }
+
+  sorted.forEach(item => {
+    const st = garageItemStatus(item, data.currentKm);
+    if (st.status === 'due') due++;
+    if (st.status === 'warn') warn++;
+    const statusLabel = st.status === 'due' ? 'Vencido' : st.status === 'warn' ? 'Atenção' : 'Em dia';
+    const nextKm = item.intervalKm ? Number(item.lastKm || 0) + Number(item.intervalKm) : null;
+    const dueDate = addMonths(item.lastDate, item.intervalMonths);
+    const kmText = st.kmRemaining === null ? 'Sem limite por km' : (st.kmRemaining >= 0 ? `Faltam ${formatKm(st.kmRemaining)}` : `Passou ${formatKm(Math.abs(st.kmRemaining))}`);
+    const dateText = st.daysRemaining === null ? 'Sem limite por tempo' : (st.daysRemaining >= 0 ? `Faltam ${st.daysRemaining} dias` : `Passou ${Math.abs(st.daysRemaining)} dias`);
+
+    const div = document.createElement('div');
+    div.className = `garage-item ${st.status}`;
+    div.innerHTML = `
+      <div class="garage-item-head">
+        <div class="garage-item-title">${item.name}</div>
+        <span class="garage-status ${st.status}">${statusLabel}</span>
+      </div>
+      <div class="garage-meta">
+        <div><b>Última troca</b><span>${formatKm(item.lastKm)} · ${formatDateBR(item.lastDate)}</span></div>
+        <div><b>Próxima por km</b><span>${nextKm ? formatKm(nextKm) : 'Não definido'}<br>${kmText}</span></div>
+        <div><b>Próxima por data</b><span>${dueDate ? dueDate.toLocaleDateString('pt-BR') : 'Não definido'}<br>${dateText}</span></div>
+      </div>
+      <div class="garage-progress"><div class="garage-progress-fill" style="width:${Math.min(100, st.progress).toFixed(0)}%"></div></div>
+      <div class="garage-item-actions">
+        <button class="btn btn-primary btn-small" onclick="markGarageDone('${item.id}')">Marcar como feito hoje</button>
+        <button class="btn btn-accent btn-small" onclick="editGarageItem('${item.id}')">Editar</button>
+        <button class="btn btn-accent btn-small" onclick="deleteGarageItem('${item.id}')">Excluir</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  document.getElementById('garageTotalItems').textContent = data.items.length;
+  document.getElementById('garageDueItems').textContent = due;
+  document.getElementById('garageWarnItems').textContent = warn;
+}
+
+function saveGarageKm(event) {
+  event.preventDefault();
+  const data = loadGarage();
+  data.currentKm = Number(document.getElementById('garageCurrentKm').value || 0);
+  saveGarage(data);
+  renderGarage();
+}
+
+function addGarageItem(event) {
+  event.preventDefault();
+  const data = loadGarage();
+  const item = {
+    id: 'item-' + Date.now(),
+    name: document.getElementById('garageItemName').value.trim(),
+    lastKm: Number(document.getElementById('garageLastKm').value || 0),
+    lastDate: document.getElementById('garageLastDate').value,
+    intervalKm: Number(document.getElementById('garageIntervalKm').value || 0),
+    intervalMonths: Number(document.getElementById('garageIntervalMonths').value || 0),
+  };
+  data.items.push(item);
+  if (!data.currentKm || data.currentKm < item.lastKm) data.currentKm = item.lastKm;
+  saveGarage(data);
+  event.target.reset();
+  renderGarage();
+}
+
+function markGarageDone(id) {
+  const data = loadGarage();
+  const item = data.items.find(i => i.id === id);
+  if (!item) return;
+  item.lastKm = Number(data.currentKm || document.getElementById('garageCurrentKm').value || 0);
+  item.lastDate = todayISO();
+  saveGarage(data);
+  renderGarage();
+}
+
+function editGarageItem(id) {
+  const data = loadGarage();
+  const item = data.items.find(i => i.id === id);
+  if (!item) return;
+  const name = prompt('Nome do item:', item.name);
+  if (name === null) return;
+  const lastKm = prompt('Km da última troca:', item.lastKm);
+  if (lastKm === null) return;
+  const lastDate = prompt('Data da última troca (AAAA-MM-DD):', item.lastDate || todayISO());
+  if (lastDate === null) return;
+  const intervalKm = prompt('Intervalo por km:', item.intervalKm || 0);
+  if (intervalKm === null) return;
+  const intervalMonths = prompt('Intervalo por meses:', item.intervalMonths || 0);
+  if (intervalMonths === null) return;
+  item.name = name.trim() || item.name;
+  item.lastKm = Number(lastKm || 0);
+  item.lastDate = lastDate;
+  item.intervalKm = Number(intervalKm || 0);
+  item.intervalMonths = Number(intervalMonths || 0);
+  saveGarage(data);
+  renderGarage();
+}
+
+function deleteGarageItem(id) {
+  if (!confirm('Excluir este item de acompanhamento?')) return;
+  const data = loadGarage();
+  data.items = data.items.filter(i => i.id !== id);
+  saveGarage(data);
+  renderGarage();
+}
+
+function resetGarageDefaults() {
+  if (!confirm('Restaurar os itens padrão? Seus itens atuais serão substituídos.')) return;
+  const currentKm = Number(document.getElementById('garageCurrentKm').value || loadGarage().currentKm || 0);
+  const today = todayISO();
+  const items = garageDefaultItems.map(item => ({ ...item, lastKm: currentKm, lastDate: today }));
+  saveGarage({ currentKm, items });
+  renderGarage();
+}
+
+renderGarage();
 
 // === QUIZ ===
 const quizData = [
