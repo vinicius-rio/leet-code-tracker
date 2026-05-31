@@ -2652,8 +2652,8 @@ obdCodes.forEach(o => {
 // 2) Execute o arquivo SQL gerado: supabase_garagem_schema.sql.
 // 3) Cole abaixo a Project URL e a anon public key do Supabase.
 // IMPORTANTE: nunca coloque a service_role key no front-end.
-const SUPABASE_URL = 'COLE_AQUI_A_PROJECT_URL_DO_SUPABASE';
-const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_PUBLIC_KEY_DO_SUPABASE';
+const SUPABASE_URL = 'https://rojjlqeuspcfehdiccro.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJvampscWV1c3BjZmVoZGljY3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNzc0MjEsImV4cCI6MjA5NTc1MzQyMX0.frfDmYviKFjUw0TNGcHOfmcVG_EEdevfzobomBZorIw';
 const SUPABASE_CONFIGURED = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 40;
 const supabaseClient = SUPABASE_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
